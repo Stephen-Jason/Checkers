@@ -17,4 +17,5 @@ public abstract class GamePiece {
     public abstract void set_current_position(int[] new_position);
     public abstract void set_texture(Texture checkers_img);
     public abstract Texture get_texture();
+    public abstract void dispose();
 }

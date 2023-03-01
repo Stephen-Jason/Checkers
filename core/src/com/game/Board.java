@@ -69,6 +69,9 @@ public class Board {
     public void dispose(){
         this.batch.dispose();
         this.board_img.dispose();
+        for (CheckersPiece piece : checkers_pieces){
+            piece.dispose();
+        }
     }
 
     public Texture get_img(){

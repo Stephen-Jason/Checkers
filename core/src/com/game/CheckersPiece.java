@@ -56,4 +56,9 @@ public class CheckersPiece extends GamePiece{
     public Texture get_texture() {
         return this.checkers_img;
     }
+
+    @Override
+    public void dispose() {
+        this.checkers_img.dispose();
+    }
 }
