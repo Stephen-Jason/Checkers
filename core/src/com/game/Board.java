@@ -1,20 +1,21 @@
 package com.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class Board {
-    private Array<int[]> square_coordinates;
     private Array<CheckersPiece> checkers_pieces;
     private final Texture board_img;
     private final Texture red_piece_img;
     private final Texture black_piece_img;
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
+    private CheckersPiece last_touched_piece;
 
     Board(){
         this.board_img = new Texture("checker-board.jpg");
@@ -25,6 +26,27 @@ public class Board {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
 
+    }
+
+    public void render(){
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        this.batch.begin();
+        this.batch.draw(this.board_img, 0, 0);
+        for(CheckersPiece piece : this.checkers_pieces){
+            float x = piece.get_current_position().x;
+            float y = piece.get_current_position().y;
+            this.batch.draw(piece.get_texture(), x, y, 80, 80);
+        }
+        this.batch.end();
+    }
+
+    public void dispose(){
+        this.batch.dispose();
+        this.board_img.dispose();
+        for (CheckersPiece piece : checkers_pieces){
+            piece.dispose();
+        }
     }
 
     private Array<CheckersPiece> setup_pieces(){
@@ -53,25 +75,21 @@ public class Board {
         return pieces;
     }
 
-    public void render(){
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        this.batch.begin();
-        this.batch.draw(this.board_img, 0, 0);
-        for(CheckersPiece piece : this.checkers_pieces){
-            float x = piece.get_current_position().x;
-            float y = piece.get_current_position().y;
-            this.batch.draw(piece.get_texture(), x, y, 80, 80);
-        }
-        this.batch.end();
-    }
+    private boolean piece_was_touched(){
+        if(Gdx.input.isTouched()){
+            Vector3 mouse_point = new Vector3();
+            mouse_point.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            Rectangle mouse_rec = new Rectangle();
+            mouse_rec.set(mouse_point.x, mouse_point.y, 5, 5);
 
-    public void dispose(){
-        this.batch.dispose();
-        this.board_img.dispose();
-        for (CheckersPiece piece : checkers_pieces){
-            piece.dispose();
+            for (CheckersPiece piece : checkers_pieces){
+                if (piece.is_touched(mouse_rec)){
+                    last_touched_piece = piece;
+                    return true;
+                }
+            }
         }
+        return false;
     }
 
     public Texture get_img(){

@@ -2,6 +2,7 @@ package com.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class CheckersPiece extends GamePiece{
@@ -60,5 +61,10 @@ public class CheckersPiece extends GamePiece{
     @Override
     public void dispose() {
         this.checkers_img.dispose();
+    }
+
+    @Override
+    public boolean is_touched(Rectangle mouse_rec) {
+        return mouse_rec.overlaps(this.current_position);
     }
 }

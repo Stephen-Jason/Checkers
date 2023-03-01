@@ -18,4 +18,5 @@ public abstract class GamePiece {
     public abstract void set_texture(Texture checkers_img);
     public abstract Texture get_texture();
     public abstract void dispose();
+    public abstract boolean is_touched(Rectangle mouse_rec);
 }
