@@ -41,6 +41,10 @@ task dist(type: Jar) {
     with jar
 }
 
+test {
+    useJUnitPlatform()
+}
+
 
 dist.dependsOn classes
 

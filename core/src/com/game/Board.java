@@ -54,8 +54,8 @@ public class Board {
         this.batch.begin();
         this.batch.draw(this.board_img, 0, 0);
         for(CheckersPiece piece : this.checkers_pieces){
-            int x = piece.get_current_position()[0];
-            int y = piece.get_current_position()[1];
+            float x = piece.get_current_position().x;
+            float y = piece.get_current_position().y;
             this.batch.draw(piece.get_texture(), x, y, 80, 80);
         }
         this.batch.end();
