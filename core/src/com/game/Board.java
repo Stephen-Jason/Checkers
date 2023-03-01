@@ -27,6 +27,8 @@ public class Board {
         this.checkers_pieces = setup_pieces();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
+        this.setup_board_grid();
+        System.out.println(this.board_spaces);
 
     }
 
@@ -103,14 +105,18 @@ public class Board {
         this.board_spaces = new Array<>();
         this.temp_rec = new Rectangle();
         this.temp_rec.set(20, 20, 100, 100);
+
         for (int count = 0; count < 64; count++){
+            Rectangle rec = new Rectangle();
             if (count == 0 || count % 8 == 0){
                 temp_rec.y += 95;
                 temp_rec.x = 20;
             }
             else{
-                temp_rec.x += 188;
+                temp_rec.x += 94;
             }
+            rec.set(temp_rec.x, temp_rec.y, 100, 100);
+            this.board_spaces.add(rec);
         }
     }
 
