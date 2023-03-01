@@ -11,6 +11,7 @@ public class Main extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+
 		batch = new SpriteBatch();
 		checkers_board = new Board();
 	}

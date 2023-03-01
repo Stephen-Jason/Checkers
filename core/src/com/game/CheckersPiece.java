@@ -12,6 +12,18 @@ public class CheckersPiece extends GamePiece{
     private Texture checkers_img;
 
 
+    public void printShit(String s){
+
+    }
+
+    public void printShit(Integer s){
+
+    }
+
+    public void printShit(CheckersPiece s){
+
+    }
+
     CheckersPiece(int[] current_position, int color, Texture checkers_img){
         this.current_position = new Rectangle();
         this.current_position.x = current_position[0];

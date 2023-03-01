@@ -33,11 +33,7 @@ public class Board {
         batch.setProjectionMatrix(camera.combined);
         this.batch.begin();
         this.batch.draw(this.board_img, 0, 0);
-        for(CheckersPiece piece : this.checkers_pieces){
-            float x = piece.get_current_position().x;
-            float y = piece.get_current_position().y;
-            this.batch.draw(piece.get_texture(), x, y, 80, 80);
-        }
+        this.draw_pieces();
         this.batch.end();
     }
 
@@ -73,6 +69,14 @@ public class Board {
         }
 
         return pieces;
+    }
+
+    private void draw_pieces(){
+        for(CheckersPiece piece : this.checkers_pieces){
+            float x = piece.get_current_position().x;
+            float y = piece.get_current_position().y;
+            this.batch.draw(piece.get_texture(), x, y, 80, 80);
+        }
     }
 
     private boolean piece_was_touched(){
