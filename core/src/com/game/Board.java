@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Board {
     private Array<Rectangle> board_spaces;
@@ -17,9 +18,12 @@ public class Board {
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private CheckersPiece last_touched_piece;
+    private Rectangle new_position_space;
+    private long last_clicked;
     private Rectangle temp_rec;
 
     Board(){
+        this.last_clicked = TimeUtils.nanoTime();
         this.board_img = new Texture("checker-board.jpg");
         this.batch = new SpriteBatch();
         this.red_piece_img = new Texture("red_piece.png");
@@ -28,7 +32,6 @@ public class Board {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
         this.setup_board_grid();
-        System.out.println(this.board_spaces);
 
     }
 
@@ -36,6 +39,7 @@ public class Board {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         this.batch.begin();
+        this.handle_touch();
         this.batch.draw(this.board_img, 0, 0);
         this.draw_pieces();
         this.batch.end();
@@ -84,19 +88,35 @@ public class Board {
 
     }
 
-    private boolean piece_was_touched(){
+    private boolean handle_touch(){
         if(Gdx.input.isTouched()){
             Vector3 mouse_point = new Vector3();
             mouse_point.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(mouse_point);
             Rectangle mouse_rec = new Rectangle();
             mouse_rec.set(mouse_point.x, mouse_point.y, 5, 5);
 
+//            check if a game piece was touched
             for (CheckersPiece piece : checkers_pieces){
-                if (piece.is_touched(mouse_rec)){
+                if (piece.is_touched(mouse_rec) && last_touched_piece == null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
                     last_touched_piece = piece;
+                    this.last_clicked = TimeUtils.nanoTime();
                     return true;
                 }
             }
+
+//            check if an empty space was touched
+            if(last_touched_piece != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
+                for (Rectangle space : this.board_spaces){
+                    if (space.overlaps(mouse_rec)){
+                        this.last_touched_piece.set_current_position(new int[]{(int)space.x + 10, (int)space.y + 20});
+                        this.last_touched_piece = null;
+                        break;
+                    }
+                }
+                this.last_clicked = TimeUtils.nanoTime();
+            }
+
         }
         return false;
     }
