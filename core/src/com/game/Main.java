@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
 	Board checkers_board;
 	
 	@Override
@@ -20,7 +19,6 @@ public class Main extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(1, 0, 0, 1);
 		checkers_board.render();
-
 	}
 	
 	@Override
