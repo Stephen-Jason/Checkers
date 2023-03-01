@@ -1,5 +1,6 @@
 package com.game;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,6 +14,7 @@ public class Board {
     private final Texture red_piece_img;
     private final Texture black_piece_img;
     private final SpriteBatch batch;
+    private final OrthographicCamera camera;
 
     Board(){
         this.board_img = new Texture("checker-board.jpg");
@@ -20,7 +22,8 @@ public class Board {
         this.red_piece_img = new Texture("red_piece.png");
         this.black_piece_img = new Texture("black_piece.png");
         this.checkers_pieces = setup_pieces();
-
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 800);
 
     }
 
@@ -51,6 +54,8 @@ public class Board {
     }
 
     public void render(){
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
         this.batch.begin();
         this.batch.draw(this.board_img, 0, 0);
         for(CheckersPiece piece : this.checkers_pieces){
