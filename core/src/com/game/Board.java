@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class Board {
+    private Array<Rectangle> board_spaces;
     private Array<CheckersPiece> checkers_pieces;
     private final Texture board_img;
     private final Texture red_piece_img;
@@ -16,6 +17,7 @@ public class Board {
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private CheckersPiece last_touched_piece;
+    private Rectangle temp_rec;
 
     Board(){
         this.board_img = new Texture("checker-board.jpg");
@@ -77,6 +79,7 @@ public class Board {
             float y = piece.get_current_position().y;
             this.batch.draw(piece.get_texture(), x, y, 80, 80);
         }
+
     }
 
     private boolean piece_was_touched(){
@@ -94,6 +97,21 @@ public class Board {
             }
         }
         return false;
+    }
+
+    private void setup_board_grid(){
+        this.board_spaces = new Array<>();
+        this.temp_rec = new Rectangle();
+        this.temp_rec.set(20, 20, 100, 100);
+        for (int count = 0; count < 64; count++){
+            if (count == 0 || count % 8 == 0){
+                temp_rec.y += 95;
+                temp_rec.x = 20;
+            }
+            else{
+                temp_rec.x += 188;
+            }
+        }
     }
 
     public Texture get_img(){
