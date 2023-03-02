@@ -109,8 +109,8 @@ public class Board {
         int piece_color = space.get_checkers_piece().get_color();
 
         if (piece_color == 0 && space.get_space_position().y <= 610){
-            left_move_space_rec.set(space_x - 94 + 25, space_y + 95 + 25, 100, 100);
-            right_move_space_rec.set(space_x + 94 + 25, space_y + 95 + 25, 100, 100);
+            left_move_space_rec.set(space_x - 94 + 25, space_y + 95 + 35, 100, 100);
+            right_move_space_rec.set(space_x + 94 + 25, space_y + 95 + 35, 100, 100);
             left_board_space_rec.set(space_x - 94, space_y + 95, 100, 100);
             right_board_space_rec.set(space_x + 94, space_y + 95, 100, 100);
             possibleMoveSpaces.add(new PossibleMoveSpace(left_move_space_rec, left_board_space_rec), new PossibleMoveSpace(right_move_space_rec, right_board_space_rec));
@@ -118,8 +118,8 @@ public class Board {
         else if (piece_color == 1 && space.get_space_position().y >= 135){
             left_board_space_rec.set(space_x - 94, space_y - 95, 100, 100);
             right_board_space_rec.set(space_x + 94, space_y - 95, 100, 100);
-            left_move_space_rec.set(space_x - 94 + 25, space_y - 95 + 25, 100, 100);
-            right_move_space_rec.set(space_x + 94 + 25, space_y - 95 + 25, 100, 100);
+            left_move_space_rec.set(space_x - 94 + 25, space_y - 95 + 35, 100, 100);
+            right_move_space_rec.set(space_x + 94 + 25, space_y - 95 + 35, 100, 100);
             possibleMoveSpaces.add(new PossibleMoveSpace(left_move_space_rec, left_board_space_rec), new PossibleMoveSpace(right_move_space_rec, right_board_space_rec));
         }
         return possibleMoveSpaces;
@@ -131,6 +131,14 @@ public class Board {
                 if (boardSpace.get_space_position().equals(moveSpace.get_board_space_position())){
                     boardSpace.set_move_space(moveSpace);
                 }
+            }
+        }
+    }
+
+    private void remove_move_spaces(){
+        for (BoardSpace space : this.boardSpaces){
+            if (space.has_move_space()){
+                space.remove_move_space();
             }
         }
     }
@@ -159,6 +167,7 @@ public class Board {
                     this.last_touched_space.remove_checkers_piece();
                     this.last_touched_space = null;
                     this.last_clicked = TimeUtils.nanoTime();
+                    this.remove_move_spaces();
                     break;
                 }
             }
