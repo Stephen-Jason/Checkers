@@ -15,6 +15,7 @@ public class Board {
     private final Texture board_img;
     private final Texture red_piece_img;
     private final Texture black_piece_img;
+    private final Texture board_space_test_img;
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private CheckersPiece last_touched_piece;
@@ -31,6 +32,7 @@ public class Board {
         this.checkers_pieces = setup_pieces();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
+        this.board_space_test_img = new Texture("board_space.jpg");
         this.setup_board_grid();
 
     }
@@ -41,6 +43,9 @@ public class Board {
         this.batch.begin();
         this.handle_touch();
         this.batch.draw(this.board_img, 0, 0);
+//        for (Rectangle space : this.board_spaces){
+//            this.batch.draw(this.board_space_test_img, space.x, space.y, 100, 100);
+//        }
         this.draw_pieces();
         this.batch.end();
     }
@@ -98,7 +103,7 @@ public class Board {
 
 //            check if a game piece was touched
             for (CheckersPiece piece : checkers_pieces){
-                if (piece.is_touched(mouse_rec) && last_touched_piece == null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
+                if (piece.is_touched(mouse_rec) && last_touched_piece == null && TimeUtils.nanoTime() - this.last_clicked > 300000000){
                     last_touched_piece = piece;
                     this.last_clicked = TimeUtils.nanoTime();
                     return true;
@@ -106,7 +111,7 @@ public class Board {
             }
 
 //            check if an empty space was touched
-            if(last_touched_piece != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
+            if(last_touched_piece != null && TimeUtils.nanoTime() - this.last_clicked > 300000000){
                 for (Rectangle space : this.board_spaces){
                     if (space.overlaps(mouse_rec)){
                         this.last_touched_piece.set_current_position(new int[]{(int)space.x + 10, (int)space.y + 20});
@@ -128,11 +133,11 @@ public class Board {
 
         for (int count = 0; count < 64; count++){
             Rectangle rec = new Rectangle();
-            if (count == 0 || count % 8 == 0){
+            if (count % 8 == 0 && count != 0){
                 temp_rec.y += 95;
                 temp_rec.x = 20;
             }
-            else{
+            else if (count != 0){
                 temp_rec.x += 94;
             }
             rec.set(temp_rec.x, temp_rec.y, 100, 100);
