@@ -128,7 +128,7 @@ public class Board {
     private void add_move_spaces(Array<PossibleMoveSpace> moveSpaces){
         for (PossibleMoveSpace moveSpace : moveSpaces){
             for (BoardSpace boardSpace : this.boardSpaces){
-                if (boardSpace.get_space_position().equals(moveSpace.get_board_space_position())){
+                if (boardSpace.get_space_position().equals(moveSpace.get_board_space_position()) && !boardSpace.has_piece()){
                     boardSpace.set_move_space(moveSpace);
                 }
             }
@@ -162,7 +162,7 @@ public class Board {
                     break;
                 }
 
-                else if (!space.has_piece() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
+                else if (!space.has_piece() && space.has_move_space() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
                     space.set_checkers_piece(this.last_touched_space.get_checkers_piece());
                     this.last_touched_space.remove_checkers_piece();
                     this.last_touched_space = null;
