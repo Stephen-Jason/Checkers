@@ -10,18 +10,13 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Board {
-    private Array<Rectangle> board_spaces;
     private Array<BoardSpace> boardSpaces;
-    private Array<CheckersPiece> checkers_pieces;
     private final Texture board_img;
     private final Texture red_piece_img;
     private final Texture black_piece_img;
-    private final Texture board_space_test_img;
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
-    private CheckersPiece last_touched_piece;
     private BoardSpace last_touched_space;
-    private Rectangle new_position_space;
     private long last_clicked;
     private Rectangle temp_rec;
 
@@ -35,9 +30,6 @@ public class Board {
         this.setup_pieces();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
-        this.board_space_test_img = new Texture("board_space.jpg");
-
-
     }
 
     public void render() {
@@ -53,8 +45,8 @@ public class Board {
     public void dispose() {
         this.batch.dispose();
         this.board_img.dispose();
-        for (CheckersPiece piece : checkers_pieces) {
-            piece.dispose();
+        for (BoardSpace space : this.boardSpaces) {
+            space.dispose();
         }
     }
 
@@ -111,47 +103,23 @@ public class Board {
             Rectangle mouse_rec = new Rectangle();
             mouse_rec.set(mouse_point.x, mouse_point.y, 5, 5);
 
-//            check if a game piece was touched
-
             for (BoardSpace space : this.boardSpaces) {
 
             if (space.is_touched(mouse_rec)){
                 if (space.has_piece() && this.last_touched_space == null && TimeUtils.nanoTime() - this.last_clicked > 1000000000) {
-                    int space_x = (int)space.get_space_position().x;
-                    int space_y = (int)space.get_space_position().y;
-                    int piece_x = (int)space.get_checkers_piece().get_current_position().x;
-                    int piece_y = (int)space.get_checkers_piece().get_current_position().y;
-                    int piece_color = space.get_checkers_piece().get_color();
-                    System.out.println("Space with Piece X: " + space_x);
-                    System.out.println("Space with Piece Y: " + space_y);
-                    this.last_touched_space = new BoardSpace(space.get_space_position());
-                    this.last_touched_piece = new CheckersPiece(new int[]{piece_x, piece_y}, piece_color, space.get_checkers_piece().get_texture());
+                    this.last_touched_space = space;
                     this.last_clicked = TimeUtils.nanoTime();
                     break;
                 }
 
-                else if (!space.has_piece() && this.last_touched_space != null && this.last_touched_piece != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
-                    int space_x = (int)space.get_space_position().x;
-                    int space_y = (int)space.get_space_position().y;
-
-//                    remove the last piece touched from the last space touched
-                    space.set_checkers_piece(this.last_touched_piece);
-                    System.out.println("The new space has a piece: " + space.has_piece());
-                    this.last_touched_piece = null;
+                else if (!space.has_piece() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
+                    space.set_checkers_piece(this.last_touched_space.get_checkers_piece());
                     this.last_touched_space.remove_checkers_piece();
                     this.last_touched_space = null;
-                    System.out.println("Empty Space X: " + space_x);
-                    System.out.println("Empty Space Y: " + space_y);
                     this.last_clicked = TimeUtils.nanoTime();
-
                     break;
                 }
             }
-
-
-
-
-
             }
         }
     }
