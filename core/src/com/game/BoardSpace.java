@@ -13,7 +13,7 @@ public class BoardSpace {
     }
 
     public void set_checkers_piece(CheckersPiece piece){
-        this.checkers_piece = piece;
+        this.checkers_piece = new CheckersPiece(new int[]{(int)piece.get_current_position().x, (int)piece.get_current_position().y}, piece.get_color(), piece.get_texture());
     }
 
     public void remove_checkers_piece(){
@@ -34,6 +34,10 @@ public class BoardSpace {
 
     public Texture get_piece_texture(){
         return this.checkers_piece.get_texture();
+    }
+
+    public boolean is_touched(Rectangle mouse_rec){
+        return this.space_position.overlaps(mouse_rec);
     }
 
 }
