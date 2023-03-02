@@ -125,25 +125,21 @@ public class Board {
                     System.out.println("Space with Piece X: " + space_x);
                     System.out.println("Space with Piece Y: " + space_y);
                     this.last_touched_space = new BoardSpace(space.get_space_position());
-                    this.last_touched_space.set_checkers_piece(new CheckersPiece(new int[]{piece_x, piece_y}, piece_color, space.get_checkers_piece().get_texture()));
+                    this.last_touched_piece = new CheckersPiece(new int[]{piece_x, piece_y}, piece_color, space.get_checkers_piece().get_texture());
                     this.last_clicked = TimeUtils.nanoTime();
                     break;
                 }
 
-                else if (!space.has_piece() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
+                else if (!space.has_piece() && this.last_touched_space != null && this.last_touched_piece != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
                     int space_x = (int)space.get_space_position().x;
                     int space_y = (int)space.get_space_position().y;
 
-                    int last_piece_x = (int)this.last_touched_space.get_checkers_piece().get_current_position().x;
-                    int last_piece_y = (int)this.last_touched_space.get_checkers_piece().get_current_position().y;
-                    int last_piece_color = this.last_touched_space.get_checkers_piece().get_color();
-//                    add the last piece touched into this new space that was touched
-                    Texture last_piece_texture = this.last_touched_space.get_piece_texture();
-                    space.set_checkers_piece(new CheckersPiece(new int[]{last_piece_x, last_piece_y}, last_piece_color, last_piece_texture));
-
 //                    remove the last piece touched from the last space touched
-
-
+                    space.set_checkers_piece(this.last_touched_piece);
+                    System.out.println("The new space has a piece: " + space.has_piece());
+                    this.last_touched_piece = null;
+                    this.last_touched_space.remove_checkers_piece();
+                    this.last_touched_space = null;
                     System.out.println("Empty Space X: " + space_x);
                     System.out.println("Empty Space Y: " + space_y);
                     this.last_clicked = TimeUtils.nanoTime();
