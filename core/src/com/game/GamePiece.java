@@ -8,8 +8,8 @@ public abstract class GamePiece {
 
     public abstract Array<PossibleMoveSpace> get_possible_moves_from(BoardSpace space);
     public abstract Rectangle get_current_position();
-    public abstract int get_color();
-    public abstract void set_color(int color);
+    public abstract int get_player_number();
+    public abstract void set_player_number(int color);
     public abstract void set_current_position(int[] new_position);
     public abstract void set_selected_texture();
     public abstract void set_unselected_texture();
