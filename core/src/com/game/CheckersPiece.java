@@ -34,7 +34,7 @@ public class CheckersPiece extends GamePiece{
         Rectangle right_board_space_rec = new Rectangle();
         int space_x = (int)space.get_space_position().x;
         int space_y = (int)space.get_space_position().y;
-        int piece_color = space.get_checkers_piece().get_color();
+        int piece_color = space.get_checkers_piece().get_player_number();
 
         if (piece_color == 0 && space.get_space_position().y <= 610){
             left_move_space_rec.set(space_x - 94 + 25, space_y + 95 + 35, 100, 100);
@@ -59,12 +59,12 @@ public class CheckersPiece extends GamePiece{
     }
 
     @Override
-    public int get_color() {
+    public int get_player_number() {
         return this.color;
     }
 
     @Override
-    public void set_color(int color) {
+    public void set_player_number(int color) {
         this.color = color;
     }
 

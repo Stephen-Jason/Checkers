@@ -9,6 +9,15 @@ public abstract class PlayerInfo {
         current_player = player_number;
     }
 
+    public static void next_player(){
+        if (current_player == 0){
+            current_player = 1;
+        }
+        else{
+            current_player = 0;
+        }
+    }
+
     public static int get_current_player(){
         return current_player;
     }

@@ -135,7 +135,7 @@ public class Board {
 
             if (space.is_touched(mouse_rec)){
                 boolean deselecting_touched_piece = space.has_piece() && space.equals(this.last_touched_space) && valid_click_time;
-                boolean selecting_new_piece = space.has_piece() && this.last_touched_space == null && valid_click_time;
+                boolean selecting_new_piece = space.has_piece() && this.last_touched_space == null && valid_click_time && space.get_player_number() == PlayerInfo.get_current_player();
                 boolean moving_to_empty_space = !space.has_piece() && space.has_move_space() && this.last_touched_space != null && valid_click_time;
 
                 if (deselecting_touched_piece){
@@ -161,6 +161,7 @@ public class Board {
                     this.last_touched_space = null;
                     this.last_clicked = TimeUtils.nanoTime();
                     this.remove_move_spaces();
+                    PlayerInfo.next_player();
                     break;
                 }
             }

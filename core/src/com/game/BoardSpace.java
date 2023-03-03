@@ -19,7 +19,7 @@ public class BoardSpace {
     }
 
     public void set_checkers_piece(CheckersPiece piece){
-        this.checkers_piece = new CheckersPiece(new int[]{(int)this.space_position.x + 10, (int)this.space_position.y + 20}, piece.get_color(), piece.get_unselected_texture(), piece.get_selected_texture());
+        this.checkers_piece = new CheckersPiece(new int[]{(int)this.space_position.x + 10, (int)this.space_position.y + 20}, piece.get_player_number(), piece.get_unselected_texture(), piece.get_selected_texture());
     }
 
     public void remove_checkers_piece(){
@@ -40,6 +40,10 @@ public class BoardSpace {
 
     public boolean has_piece(){
         return this.checkers_piece != null;
+    }
+
+    public int get_player_number(){
+        return this.checkers_piece.get_player_number();
     }
 
     public Texture get_piece_texture(){
