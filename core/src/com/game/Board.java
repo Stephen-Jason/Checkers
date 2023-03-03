@@ -98,32 +98,6 @@ public class Board {
 
     }
 
-    private Array<PossibleMoveSpace> get_possible_move_spaces(BoardSpace space){
-        Array<PossibleMoveSpace> possibleMoveSpaces = new Array<>();
-        Rectangle left_move_space_rec = new Rectangle();
-        Rectangle right_move_space_rec = new Rectangle();
-        Rectangle left_board_space_rec = new Rectangle();
-        Rectangle right_board_space_rec = new Rectangle();
-        int space_x = (int)space.get_space_position().x;
-        int space_y = (int)space.get_space_position().y;
-        int piece_color = space.get_checkers_piece().get_color();
-
-        if (piece_color == 0 && space.get_space_position().y <= 610){
-            left_move_space_rec.set(space_x - 94 + 25, space_y + 95 + 35, 100, 100);
-            right_move_space_rec.set(space_x + 94 + 25, space_y + 95 + 35, 100, 100);
-            left_board_space_rec.set(space_x - 94, space_y + 95, 100, 100);
-            right_board_space_rec.set(space_x + 94, space_y + 95, 100, 100);
-            possibleMoveSpaces.add(new PossibleMoveSpace(left_move_space_rec, left_board_space_rec), new PossibleMoveSpace(right_move_space_rec, right_board_space_rec));
-        }
-        else if (piece_color == 1 && space.get_space_position().y >= 135){
-            left_board_space_rec.set(space_x - 94, space_y - 95, 100, 100);
-            right_board_space_rec.set(space_x + 94, space_y - 95, 100, 100);
-            left_move_space_rec.set(space_x - 94 + 25, space_y - 95 + 35, 100, 100);
-            right_move_space_rec.set(space_x + 94 + 25, space_y - 95 + 35, 100, 100);
-            possibleMoveSpaces.add(new PossibleMoveSpace(left_move_space_rec, left_board_space_rec), new PossibleMoveSpace(right_move_space_rec, right_board_space_rec));
-        }
-        return possibleMoveSpaces;
-    }
 
     private void add_move_spaces(Array<PossibleMoveSpace> moveSpaces){
         for (PossibleMoveSpace moveSpace : moveSpaces){
@@ -157,7 +131,7 @@ public class Board {
                 if (space.has_piece() && this.last_touched_space == null && TimeUtils.nanoTime() - this.last_clicked > 1000000000) {
                     this.last_touched_space = space;
                     this.last_clicked = TimeUtils.nanoTime();
-                    Array<PossibleMoveSpace> moveSpaces = this.get_possible_move_spaces(space);
+                    Array<PossibleMoveSpace> moveSpaces = space.get_possible_moves_from_here();
                     this.add_move_spaces(moveSpaces);
                     break;
                 }

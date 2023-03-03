@@ -2,7 +2,6 @@ package com.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class CheckersPiece extends GamePiece{
@@ -21,9 +20,33 @@ public class CheckersPiece extends GamePiece{
         this.checkers_img = checkers_img;
     }
 
+
     @Override
-    public Array<int[]> get_possible_moves(Array<int[]> square_coordinates) {
-        return null;
+    public Array<PossibleMoveSpace> get_possible_moves_from(BoardSpace space) {
+        Array<PossibleMoveSpace> possibleMoveSpaces = new Array<>();
+        Rectangle left_move_space_rec = new Rectangle();
+        Rectangle right_move_space_rec = new Rectangle();
+        Rectangle left_board_space_rec = new Rectangle();
+        Rectangle right_board_space_rec = new Rectangle();
+        int space_x = (int)space.get_space_position().x;
+        int space_y = (int)space.get_space_position().y;
+        int piece_color = space.get_checkers_piece().get_color();
+
+        if (piece_color == 0 && space.get_space_position().y <= 610){
+            left_move_space_rec.set(space_x - 94 + 25, space_y + 95 + 35, 100, 100);
+            right_move_space_rec.set(space_x + 94 + 25, space_y + 95 + 35, 100, 100);
+            left_board_space_rec.set(space_x - 94, space_y + 95, 100, 100);
+            right_board_space_rec.set(space_x + 94, space_y + 95, 100, 100);
+            possibleMoveSpaces.add(new PossibleMoveSpace(left_move_space_rec, left_board_space_rec), new PossibleMoveSpace(right_move_space_rec, right_board_space_rec));
+        }
+        else if (piece_color == 1 && space.get_space_position().y >= 135){
+            left_board_space_rec.set(space_x - 94, space_y - 95, 100, 100);
+            right_board_space_rec.set(space_x + 94, space_y - 95, 100, 100);
+            left_move_space_rec.set(space_x - 94 + 25, space_y - 95 + 35, 100, 100);
+            right_move_space_rec.set(space_x + 94 + 25, space_y - 95 + 35, 100, 100);
+            possibleMoveSpaces.add(new PossibleMoveSpace(left_move_space_rec, left_board_space_rec), new PossibleMoveSpace(right_move_space_rec, right_board_space_rec));
+        }
+        return possibleMoveSpaces;
     }
 
     @Override

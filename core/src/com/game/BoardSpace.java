@@ -20,6 +20,10 @@ public class BoardSpace {
         this.right_move_rec = new Rectangle();
     }
 
+    public Array<PossibleMoveSpace> get_possible_moves_from_here(){
+        return this.checkers_piece.get_possible_moves_from(this);
+    }
+
     public void set_checkers_piece(CheckersPiece piece){
         this.checkers_piece = new CheckersPiece(new int[]{(int)this.space_position.x + 10, (int)this.space_position.y + 20}, piece.get_color(), piece.get_texture());
     }
