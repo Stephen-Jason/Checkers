@@ -10,7 +10,7 @@ public abstract class GamePiece {
     private int color;
 
 
-    public abstract Array<int[]> get_possible_moves(Array<int[]> square_coordinates);
+    public abstract Array<PossibleMoveSpace> get_possible_moves_from(BoardSpace space);
     public abstract Rectangle get_current_position();
     public abstract int get_color();
     public abstract void set_color(int color);

@@ -68,20 +68,20 @@ public class Board {
         this.boardSpaces.get(22).set_checkers_piece(new CheckersPiece(new int[]{594, 230}, 0, this.red_piece_img));
 
 
-        this.boardSpaces.get(41).set_checkers_piece(new CheckersPiece(new int[]{126, 705}, 0, this.black_piece_img));
-        this.boardSpaces.get(43).set_checkers_piece(new CheckersPiece(new int[]{313, 705}, 0, this.black_piece_img));
-        this.boardSpaces.get(45).set_checkers_piece(new CheckersPiece(new int[]{500, 705}, 0, this.black_piece_img));
-        this.boardSpaces.get(47).set_checkers_piece(new CheckersPiece(new int[]{687, 705}, 0, this.black_piece_img));
+        this.boardSpaces.get(41).set_checkers_piece(new CheckersPiece(new int[]{126, 705}, 1, this.black_piece_img));
+        this.boardSpaces.get(43).set_checkers_piece(new CheckersPiece(new int[]{313, 705}, 1, this.black_piece_img));
+        this.boardSpaces.get(45).set_checkers_piece(new CheckersPiece(new int[]{500, 705}, 1, this.black_piece_img));
+        this.boardSpaces.get(47).set_checkers_piece(new CheckersPiece(new int[]{687, 705}, 1, this.black_piece_img));
 
-        this.boardSpaces.get(48).set_checkers_piece(new CheckersPiece(new int[]{32, 610}, 0, this.black_piece_img));
-        this.boardSpaces.get(50).set_checkers_piece(new CheckersPiece(new int[]{220, 610}, 0, this.black_piece_img));
-        this.boardSpaces.get(52).set_checkers_piece(new CheckersPiece(new int[]{406, 610}, 0, this.black_piece_img));
-        this.boardSpaces.get(54).set_checkers_piece(new CheckersPiece(new int[]{594, 610}, 0, this.black_piece_img));
+        this.boardSpaces.get(48).set_checkers_piece(new CheckersPiece(new int[]{32, 610}, 1, this.black_piece_img));
+        this.boardSpaces.get(50).set_checkers_piece(new CheckersPiece(new int[]{220, 610}, 1, this.black_piece_img));
+        this.boardSpaces.get(52).set_checkers_piece(new CheckersPiece(new int[]{406, 610}, 1, this.black_piece_img));
+        this.boardSpaces.get(54).set_checkers_piece(new CheckersPiece(new int[]{594, 610}, 1, this.black_piece_img));
 
-        this.boardSpaces.get(57).set_checkers_piece(new CheckersPiece(new int[]{126, 515}, 0, this.black_piece_img));
-        this.boardSpaces.get(59).set_checkers_piece(new CheckersPiece(new int[]{313, 515}, 0, this.black_piece_img));
-        this.boardSpaces.get(61).set_checkers_piece(new CheckersPiece(new int[]{500, 515}, 0, this.black_piece_img));
-        this.boardSpaces.get(63).set_checkers_piece(new CheckersPiece(new int[]{687, 515}, 0, this.black_piece_img));
+        this.boardSpaces.get(57).set_checkers_piece(new CheckersPiece(new int[]{126, 515}, 1, this.black_piece_img));
+        this.boardSpaces.get(59).set_checkers_piece(new CheckersPiece(new int[]{313, 515}, 1, this.black_piece_img));
+        this.boardSpaces.get(61).set_checkers_piece(new CheckersPiece(new int[]{500, 515}, 1, this.black_piece_img));
+        this.boardSpaces.get(63).set_checkers_piece(new CheckersPiece(new int[]{687, 515}, 1, this.black_piece_img));
 
 
     }
@@ -91,8 +91,30 @@ public class Board {
             if (space.has_piece()) {
                 this.batch.draw(space.get_piece_texture(), space.get_checkers_piece().get_current_position().x, space.get_checkers_piece().get_current_position().y, 80, 80);
             }
+            if (space.has_move_space()){
+                this.batch.draw(space.get_move_space_texture(), space.get_move_space_position().x, space.get_move_space_position().y, 50, 50);
+            }
         }
 
+    }
+
+
+    private void add_move_spaces(Array<PossibleMoveSpace> moveSpaces){
+        for (PossibleMoveSpace moveSpace : moveSpaces){
+            for (BoardSpace boardSpace : this.boardSpaces){
+                if (boardSpace.get_space_position().equals(moveSpace.get_board_space_position()) && !boardSpace.has_piece()){
+                    boardSpace.set_move_space(moveSpace);
+                }
+            }
+        }
+    }
+
+    private void remove_move_spaces(){
+        for (BoardSpace space : this.boardSpaces){
+            if (space.has_move_space()){
+                space.remove_move_space();
+            }
+        }
     }
 
     private void handle_touch() {
@@ -109,14 +131,17 @@ public class Board {
                 if (space.has_piece() && this.last_touched_space == null && TimeUtils.nanoTime() - this.last_clicked > 1000000000) {
                     this.last_touched_space = space;
                     this.last_clicked = TimeUtils.nanoTime();
+                    Array<PossibleMoveSpace> moveSpaces = space.get_possible_moves_from_here();
+                    this.add_move_spaces(moveSpaces);
                     break;
                 }
 
-                else if (!space.has_piece() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
+                else if (!space.has_piece() && space.has_move_space() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
                     space.set_checkers_piece(this.last_touched_space.get_checkers_piece());
                     this.last_touched_space.remove_checkers_piece();
                     this.last_touched_space = null;
                     this.last_clicked = TimeUtils.nanoTime();
+                    this.remove_move_spaces();
                     break;
                 }
             }
