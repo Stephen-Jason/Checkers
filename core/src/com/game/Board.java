@@ -34,6 +34,7 @@ public class Board {
         this.setup_pieces();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
+        PlayerInfo.set_current_player(1);
     }
 
     public void render() {
