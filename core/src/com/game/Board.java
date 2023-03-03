@@ -114,9 +114,9 @@ public class Board {
     }
 
     private void remove_move_spaces(){
-        for (BoardSpace space : this.boardSpaces){
-            if (space.has_move_space()){
-                space.remove_move_space();
+        for (byte space_index = 0; space_index < this.boardSpaces.size; space_index++){
+            if (this.boardSpaces.get(space_index).has_move_space()){
+                this.boardSpaces.get(space_index).remove_move_space();
             }
         }
     }
@@ -132,7 +132,14 @@ public class Board {
             for (BoardSpace space : this.boardSpaces) {
 
             if (space.is_touched(mouse_rec)){
-                if (space.has_piece() && this.last_touched_space == null && TimeUtils.nanoTime() - this.last_clicked > 1000000000) {
+                if (space.has_piece() && space.equals(this.last_touched_space) && TimeUtils.nanoTime() - this.last_clicked > 300000000){
+                    space.get_checkers_piece().set_unselected_texture();
+                    this.last_touched_space = null;
+                    this.last_clicked = TimeUtils.nanoTime();
+                    this.remove_move_spaces();
+                }
+
+                else if (space.has_piece() && this.last_touched_space == null && TimeUtils.nanoTime() - this.last_clicked > 300000000) {
                     this.last_touched_space = space;
                     this.last_clicked = TimeUtils.nanoTime();
                     Array<PossibleMoveSpace> moveSpaces = space.get_possible_moves_from_here();
@@ -141,7 +148,7 @@ public class Board {
                     break;
                 }
 
-                else if (!space.has_piece() && space.has_move_space() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
+                else if (!space.has_piece() && space.has_move_space() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 300000000){
                     space.set_checkers_piece(this.last_touched_space.get_checkers_piece());
                     this.last_touched_space.get_checkers_piece().set_unselected_texture();
                     this.last_touched_space.remove_checkers_piece();
