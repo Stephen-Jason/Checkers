@@ -8,16 +8,10 @@ public class BoardSpace {
     private final Rectangle space_position;
     private CheckersPiece checkers_piece;
     private PossibleMoveSpace moveSpace;
-    private Array<Rectangle> possible_moves_recs;
-    private Rectangle left_move_rec;
-    private Rectangle right_move_rec;
 
     BoardSpace(Rectangle position){
         this.space_position = new Rectangle();
         this.space_position.set(position);
-        this.possible_moves_recs = new Array<>();
-        this.left_move_rec = new Rectangle();
-        this.right_move_rec = new Rectangle();
     }
 
     public Array<PossibleMoveSpace> get_possible_moves_from_here(){
@@ -25,7 +19,7 @@ public class BoardSpace {
     }
 
     public void set_checkers_piece(CheckersPiece piece){
-        this.checkers_piece = new CheckersPiece(new int[]{(int)this.space_position.x + 10, (int)this.space_position.y + 20}, piece.get_color(), piece.get_texture());
+        this.checkers_piece = new CheckersPiece(new int[]{(int)this.space_position.x + 10, (int)this.space_position.y + 20}, piece.get_color(), piece.get_unselected_texture(), piece.get_selected_texture());
     }
 
     public void remove_checkers_piece(){
@@ -49,7 +43,7 @@ public class BoardSpace {
     }
 
     public Texture get_piece_texture(){
-        return this.checkers_piece.get_texture();
+        return this.checkers_piece.get_current_texture();
     }
 
     public boolean is_touched(Rectangle mouse_rec){

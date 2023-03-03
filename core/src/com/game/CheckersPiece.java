@@ -8,16 +8,20 @@ public class CheckersPiece extends GamePiece{
 
     private Rectangle current_position;
     private int color;
-    private Texture checkers_img;
+    private Texture current_texture;
+    private final Texture checkers_img_unselected;
+    private final Texture checkers_img_selected;
 
-    CheckersPiece(int[] current_position, int color, Texture checkers_img){
+    CheckersPiece(int[] current_position, int color, Texture checkers_img_unselected, Texture checkers_img_selected){
         this.current_position = new Rectangle();
         this.current_position.x = current_position[0];
         this.current_position.y = current_position[1];
         this.current_position.width = 80;
         this.current_position.height = 80;
         this.color = color;
-        this.checkers_img = checkers_img;
+        this.checkers_img_unselected = checkers_img_unselected;
+        this.checkers_img_selected = checkers_img_selected;
+        this.current_texture = checkers_img_unselected;
     }
 
 
@@ -71,18 +75,34 @@ public class CheckersPiece extends GamePiece{
     }
 
     @Override
-    public void set_texture(Texture checkers_img) {
-        this.checkers_img = checkers_img;
+    public void set_selected_texture() {
+        this.current_texture = this.checkers_img_selected;
     }
 
     @Override
-    public Texture get_texture() {
-        return this.checkers_img;
+    public void set_unselected_texture() {
+        this.current_texture = this.checkers_img_unselected;
     }
+
+    @Override
+    public Texture get_selected_texture() {
+        return this.checkers_img_selected;
+    }
+
+    @Override
+    public Texture get_unselected_texture() {
+        return this.checkers_img_unselected;
+    }
+
+    @Override
+    public Texture get_current_texture() {
+        return this.current_texture;
+    }
+
 
     @Override
     public void dispose() {
-        this.checkers_img.dispose();
+        this.checkers_img_unselected.dispose();
     }
 
     @Override
