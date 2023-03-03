@@ -12,8 +12,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class Board {
     private Array<BoardSpace> boardSpaces;
     private final Texture board_img;
-    private final Texture red_piece_img;
-    private final Texture black_piece_img;
+    private final Texture red_piece_img_unselected;
+    private final Texture black_piece_img_unselected;
+    private final Texture red_piece_img_selected;
+    private final Texture black_piece_img_selected;
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private BoardSpace last_touched_space;
@@ -24,8 +26,10 @@ public class Board {
         this.last_clicked = TimeUtils.nanoTime();
         this.board_img = new Texture("checker-board.jpg");
         this.batch = new SpriteBatch();
-        this.red_piece_img = new Texture("red_piece.png");
-        this.black_piece_img = new Texture("black_piece.png");
+        this.red_piece_img_unselected = new Texture("red_piece.png");
+        this.black_piece_img_unselected = new Texture("black_piece.png");
+        this.red_piece_img_selected = new Texture("red_piece_selected.png");
+        this.black_piece_img_selected = new Texture("black_piece_selected.png");
         this.setup_board_grid();
         this.setup_pieces();
         camera = new OrthographicCamera();
@@ -52,36 +56,36 @@ public class Board {
 
     private void setup_pieces() {
 
-        this.boardSpaces.get(0).set_checkers_piece(new CheckersPiece(new int[]{32, 40}, 0, this.red_piece_img));
-        this.boardSpaces.get(2).set_checkers_piece(new CheckersPiece(new int[]{220, 40}, 0, this.red_piece_img));
-        this.boardSpaces.get(4).set_checkers_piece(new CheckersPiece(new int[]{408, 40}, 0, this.red_piece_img));
-        this.boardSpaces.get(6).set_checkers_piece(new CheckersPiece(new int[]{594, 40}, 0, this.red_piece_img));
+        this.boardSpaces.get(0).set_checkers_piece(new CheckersPiece(new int[]{32, 40}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(2).set_checkers_piece(new CheckersPiece(new int[]{220, 40}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(4).set_checkers_piece(new CheckersPiece(new int[]{408, 40}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(6).set_checkers_piece(new CheckersPiece(new int[]{594, 40}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
 
-        this.boardSpaces.get(9).set_checkers_piece(new CheckersPiece(new int[]{126, 135}, 0, this.red_piece_img));
-        this.boardSpaces.get(11).set_checkers_piece(new CheckersPiece(new int[]{313, 135}, 0, this.red_piece_img));
-        this.boardSpaces.get(13).set_checkers_piece(new CheckersPiece(new int[]{501, 135}, 0, this.red_piece_img));
-        this.boardSpaces.get(15).set_checkers_piece(new CheckersPiece(new int[]{689, 135}, 0, this.red_piece_img));
+        this.boardSpaces.get(9).set_checkers_piece(new CheckersPiece(new int[]{126, 135}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(11).set_checkers_piece(new CheckersPiece(new int[]{313, 135}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(13).set_checkers_piece(new CheckersPiece(new int[]{501, 135}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(15).set_checkers_piece(new CheckersPiece(new int[]{689, 135}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
 
-        this.boardSpaces.get(16).set_checkers_piece(new CheckersPiece(new int[]{32, 230}, 0, this.red_piece_img));
-        this.boardSpaces.get(18).set_checkers_piece(new CheckersPiece(new int[]{220, 230}, 0, this.red_piece_img));
-        this.boardSpaces.get(20).set_checkers_piece(new CheckersPiece(new int[]{408, 230}, 0, this.red_piece_img));
-        this.boardSpaces.get(22).set_checkers_piece(new CheckersPiece(new int[]{594, 230}, 0, this.red_piece_img));
+        this.boardSpaces.get(16).set_checkers_piece(new CheckersPiece(new int[]{32, 230}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(18).set_checkers_piece(new CheckersPiece(new int[]{220, 230}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(20).set_checkers_piece(new CheckersPiece(new int[]{408, 230}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(22).set_checkers_piece(new CheckersPiece(new int[]{594, 230}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
 
 
-        this.boardSpaces.get(41).set_checkers_piece(new CheckersPiece(new int[]{126, 705}, 1, this.black_piece_img));
-        this.boardSpaces.get(43).set_checkers_piece(new CheckersPiece(new int[]{313, 705}, 1, this.black_piece_img));
-        this.boardSpaces.get(45).set_checkers_piece(new CheckersPiece(new int[]{500, 705}, 1, this.black_piece_img));
-        this.boardSpaces.get(47).set_checkers_piece(new CheckersPiece(new int[]{687, 705}, 1, this.black_piece_img));
+        this.boardSpaces.get(41).set_checkers_piece(new CheckersPiece(new int[]{126, 705}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(43).set_checkers_piece(new CheckersPiece(new int[]{313, 705}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(45).set_checkers_piece(new CheckersPiece(new int[]{500, 705}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(47).set_checkers_piece(new CheckersPiece(new int[]{687, 705}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
 
-        this.boardSpaces.get(48).set_checkers_piece(new CheckersPiece(new int[]{32, 610}, 1, this.black_piece_img));
-        this.boardSpaces.get(50).set_checkers_piece(new CheckersPiece(new int[]{220, 610}, 1, this.black_piece_img));
-        this.boardSpaces.get(52).set_checkers_piece(new CheckersPiece(new int[]{406, 610}, 1, this.black_piece_img));
-        this.boardSpaces.get(54).set_checkers_piece(new CheckersPiece(new int[]{594, 610}, 1, this.black_piece_img));
+        this.boardSpaces.get(48).set_checkers_piece(new CheckersPiece(new int[]{32, 610}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(50).set_checkers_piece(new CheckersPiece(new int[]{220, 610}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(52).set_checkers_piece(new CheckersPiece(new int[]{406, 610}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(54).set_checkers_piece(new CheckersPiece(new int[]{594, 610}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
 
-        this.boardSpaces.get(57).set_checkers_piece(new CheckersPiece(new int[]{126, 515}, 1, this.black_piece_img));
-        this.boardSpaces.get(59).set_checkers_piece(new CheckersPiece(new int[]{313, 515}, 1, this.black_piece_img));
-        this.boardSpaces.get(61).set_checkers_piece(new CheckersPiece(new int[]{500, 515}, 1, this.black_piece_img));
-        this.boardSpaces.get(63).set_checkers_piece(new CheckersPiece(new int[]{687, 515}, 1, this.black_piece_img));
+        this.boardSpaces.get(57).set_checkers_piece(new CheckersPiece(new int[]{126, 515}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(59).set_checkers_piece(new CheckersPiece(new int[]{313, 515}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(61).set_checkers_piece(new CheckersPiece(new int[]{500, 515}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(63).set_checkers_piece(new CheckersPiece(new int[]{687, 515}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
 
 
     }
@@ -132,12 +136,14 @@ public class Board {
                     this.last_touched_space = space;
                     this.last_clicked = TimeUtils.nanoTime();
                     Array<PossibleMoveSpace> moveSpaces = space.get_possible_moves_from_here();
+                    space.get_checkers_piece().set_selected_texture();
                     this.add_move_spaces(moveSpaces);
                     break;
                 }
 
                 else if (!space.has_piece() && space.has_move_space() && this.last_touched_space != null && TimeUtils.nanoTime() - this.last_clicked > 1000000000){
                     space.set_checkers_piece(this.last_touched_space.get_checkers_piece());
+                    this.last_touched_space.get_checkers_piece().set_unselected_texture();
                     this.last_touched_space.remove_checkers_piece();
                     this.last_touched_space = null;
                     this.last_clicked = TimeUtils.nanoTime();
