@@ -34,7 +34,7 @@ public class Board {
         this.setup_pieces();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
-        PlayerInfo.set_current_player(1);
+        PlayerInfo.set_current_player(0);
     }
 
     public void render() {
@@ -44,6 +44,7 @@ public class Board {
         this.handle_touch();
         this.batch.draw(this.board_img, 0, 0);
         this.draw_pieces();
+        FontHandler.draw_fonts(this.batch);
         this.batch.end();
     }
 
@@ -57,36 +58,36 @@ public class Board {
 
     private void setup_pieces() {
 
-        this.boardSpaces.get(0).set_checkers_piece(new CheckersPiece(new int[]{32, 40}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(2).set_checkers_piece(new CheckersPiece(new int[]{220, 40}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(4).set_checkers_piece(new CheckersPiece(new int[]{408, 40}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(6).set_checkers_piece(new CheckersPiece(new int[]{594, 40}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(0).set_checkers_piece(new CheckersPiece(new int[]{32, 40}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(2).set_checkers_piece(new CheckersPiece(new int[]{220, 40}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(4).set_checkers_piece(new CheckersPiece(new int[]{408, 40}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(6).set_checkers_piece(new CheckersPiece(new int[]{594, 40}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
 
-        this.boardSpaces.get(9).set_checkers_piece(new CheckersPiece(new int[]{126, 135}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(11).set_checkers_piece(new CheckersPiece(new int[]{313, 135}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(13).set_checkers_piece(new CheckersPiece(new int[]{501, 135}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(15).set_checkers_piece(new CheckersPiece(new int[]{689, 135}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(9).set_checkers_piece(new CheckersPiece(new int[]{126, 135}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(11).set_checkers_piece(new CheckersPiece(new int[]{313, 135}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(13).set_checkers_piece(new CheckersPiece(new int[]{501, 135}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(15).set_checkers_piece(new CheckersPiece(new int[]{689, 135}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
 
-        this.boardSpaces.get(16).set_checkers_piece(new CheckersPiece(new int[]{32, 230}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(18).set_checkers_piece(new CheckersPiece(new int[]{220, 230}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(20).set_checkers_piece(new CheckersPiece(new int[]{408, 230}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
-        this.boardSpaces.get(22).set_checkers_piece(new CheckersPiece(new int[]{594, 230}, 0, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(16).set_checkers_piece(new CheckersPiece(new int[]{32, 230}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(18).set_checkers_piece(new CheckersPiece(new int[]{220, 230}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(20).set_checkers_piece(new CheckersPiece(new int[]{408, 230}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
+        this.boardSpaces.get(22).set_checkers_piece(new CheckersPiece(new int[]{594, 230}, 1, this.red_piece_img_unselected, this.red_piece_img_selected));
 
 
-        this.boardSpaces.get(41).set_checkers_piece(new CheckersPiece(new int[]{126, 705}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(43).set_checkers_piece(new CheckersPiece(new int[]{313, 705}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(45).set_checkers_piece(new CheckersPiece(new int[]{500, 705}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(47).set_checkers_piece(new CheckersPiece(new int[]{687, 705}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(41).set_checkers_piece(new CheckersPiece(new int[]{126, 705}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(43).set_checkers_piece(new CheckersPiece(new int[]{313, 705}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(45).set_checkers_piece(new CheckersPiece(new int[]{500, 705}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(47).set_checkers_piece(new CheckersPiece(new int[]{687, 705}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
 
-        this.boardSpaces.get(48).set_checkers_piece(new CheckersPiece(new int[]{32, 610}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(50).set_checkers_piece(new CheckersPiece(new int[]{220, 610}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(52).set_checkers_piece(new CheckersPiece(new int[]{406, 610}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(54).set_checkers_piece(new CheckersPiece(new int[]{594, 610}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(48).set_checkers_piece(new CheckersPiece(new int[]{32, 610}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(50).set_checkers_piece(new CheckersPiece(new int[]{220, 610}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(52).set_checkers_piece(new CheckersPiece(new int[]{406, 610}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(54).set_checkers_piece(new CheckersPiece(new int[]{594, 610}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
 
-        this.boardSpaces.get(57).set_checkers_piece(new CheckersPiece(new int[]{126, 515}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(59).set_checkers_piece(new CheckersPiece(new int[]{313, 515}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(61).set_checkers_piece(new CheckersPiece(new int[]{500, 515}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
-        this.boardSpaces.get(63).set_checkers_piece(new CheckersPiece(new int[]{687, 515}, 1, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(57).set_checkers_piece(new CheckersPiece(new int[]{126, 515}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(59).set_checkers_piece(new CheckersPiece(new int[]{313, 515}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(61).set_checkers_piece(new CheckersPiece(new int[]{500, 515}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
+        this.boardSpaces.get(63).set_checkers_piece(new CheckersPiece(new int[]{687, 515}, 0, this.black_piece_img_unselected, this.black_piece_img_selected));
 
 
     }
