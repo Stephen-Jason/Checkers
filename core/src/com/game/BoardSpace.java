@@ -1,16 +1,21 @@
 package com.game;
 
+import com.badlogic.gdx.math.Rectangle;
+
 public class BoardSpace {
 
     private CheckersPiece checkersPiece;
     private int isSelected;
     private int x;
     private int y;
+    private Rectangle spaceRectangle;
 
     BoardSpace(int x, int y){
         this.x = x;
         this.y = y;
         this.isSelected = 0;
+        this.spaceRectangle = new Rectangle();
+        this.spaceRectangle.set(x, y, 100, 100);
     }
 
     public void setCheckersPiece(CheckersPiece checkersPiece){
@@ -31,6 +36,10 @@ public class BoardSpace {
 
     public int getY(){
         return this.y;
+    }
+
+    public Rectangle getSpaceRectangle(){
+        return this.spaceRectangle;
     }
 
     public int getCheckersPieceOwner(){
