@@ -1,11 +1,5 @@
 package com.game;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-
-import java.awt.*;
-
 public class BoardSpace {
 
     private CheckersPiece checkersPiece;
