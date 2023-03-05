@@ -7,16 +7,30 @@ public abstract class SpaceHandler {
 
     public static void handleSpace(BoardSpace boardSpace, Array<BoardSpace> boardSpaces){
 
+//        selecting a piece to move
         if (boardSpace.hasCheckersPiece() && !anyTouchedSpaces(boardSpaces)){
             boardSpace.setIsSelected(1);
             return;
         }
 
-        if (boardSpace.hasCheckersPiece() && anyTouchedSpaces(boardSpaces) && alreadyTouchedSpace(boardSpaces) != null){
-            if (boardSpace.equals(alreadyTouchedSpace(boardSpaces))){
+//        deselecting a piece that was already selected
+        if (boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
+            if (boardSpace.equals(getPreviouslyTouchedSpace(boardSpaces))){
                 boardSpace.setIsSelected(0);
             }
             return;
+        }
+
+//        moving a selected piece to a valid empty space
+        if (!boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
+
+            if (!boardSpace.hasCheckersPiece()){
+                BoardSpace previousSpace = getPreviouslyTouchedSpace(boardSpaces);
+                previousSpace.setIsSelected(0);
+                Players pieceOwner = previousSpace.getCheckersPieceOwner();
+                previousSpace.removeCheckersPiece();
+                boardSpace.setCheckersPiece(new CheckersPiece(pieceOwner));
+            }
         }
 
     }
@@ -31,7 +45,7 @@ public abstract class SpaceHandler {
         return false;
     }
 
-    private static BoardSpace alreadyTouchedSpace(Array<BoardSpace> boardSpaces){
+    private static BoardSpace getPreviouslyTouchedSpace(Array<BoardSpace> boardSpaces){
         for (BoardSpace boardSpace : boardSpaces){
             if (boardSpace.isSelected() == 1){
                 return boardSpace;

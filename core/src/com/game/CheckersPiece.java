@@ -9,8 +9,8 @@ public class CheckersPiece {
         this.playerNumber = playerNumber;
     }
 
-    public int getPlayerNumber(){
-        return this.playerNumber.playerNumber;
+    public Players getPlayerNumber(){
+        return this.playerNumber;
     }
 
 }
