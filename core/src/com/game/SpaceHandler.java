@@ -34,7 +34,11 @@ public abstract class SpaceHandler {
             }
         }
 
+//        capturing an enemy piece
+
+
     }
+
 
     private static boolean isValidMovement(BoardSpace previousSpace, BoardSpace newSpace, Array<BoardSpace> boardSpaces){
 
@@ -47,19 +51,35 @@ public abstract class SpaceHandler {
     }
 
     private static int[] getValidMoveIndexes(BoardSpace previousSpace,  Array<BoardSpace> boardSpaces){
-        int[] validMoveIndexes = new int[2];
         int previousSpaceIndex = boardSpaces.indexOf(previousSpace, false);
+        int[] validMovementIndexes = new int[2];
+        boolean redPlayerBelowTopLine = previousSpace.getCheckersPieceOwner().playerNumber == Players.RED.playerNumber && previousSpaceIndex < 54;
+        boolean blackPlayerAboveBottomLine = previousSpace.getCheckersPieceOwner().playerNumber == Players.BLACK.playerNumber && previousSpaceIndex >= 8;
+        int[] invalidMovingLeftIndexes = new int[] {0, 16, 32, 48, 56};
+        int[] invalidMovingRightIndexes = new int[] {7, 15, 23, 31, 39, 47, 55, 63};
 
-        if (previousSpace.getCheckersPieceOwner().playerNumber == Players.RED.playerNumber && previousSpaceIndex <= 54){
-            validMoveIndexes[0] = previousSpaceIndex + 7;
-            validMoveIndexes[1] = previousSpaceIndex + 9;
+//        red player can move left or right
+        if (redPlayerBelowTopLine){
+            validMovementIndexes[0] = previousSpaceIndex + 7;
+            validMovementIndexes[1] = previousSpaceIndex + 9;
         }
 
-        else if (previousSpace.getCheckersPieceOwner().playerNumber == Players.BLACK.playerNumber && previousSpaceIndex > 8){
-            validMoveIndexes[0] = previousSpaceIndex - 7;
-            validMoveIndexes[1] = previousSpaceIndex - 9;
+//        black player can move left or right
+        if (blackPlayerAboveBottomLine){
+            validMovementIndexes[0] = previousSpaceIndex - 7;
+            validMovementIndexes[1] = previousSpaceIndex - 9;
         }
-        return validMoveIndexes;
+
+//        can only move right from previous space
+        if (ArrayFunc.contains(previousSpaceIndex, invalidMovingLeftIndexes)){
+            return new int[] {validMovementIndexes[1]};
+        }
+//        can only move left from previous space
+        if (ArrayFunc.contains(previousSpaceIndex, invalidMovingRightIndexes)){
+            return new int[] {validMovementIndexes[0]};
+        }
+
+        return validMovementIndexes;
     }
 
     private static boolean anyTouchedSpaces(Array<BoardSpace> boardSpaces){
