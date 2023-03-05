@@ -19,7 +19,7 @@ public class TouchEvent {
     }
 
 
-    public int getSpacePieceOwner(){
+    public Players getSpacePieceOwner(){
         return this.spaceTouched.getCheckersPieceOwner();
     }
 

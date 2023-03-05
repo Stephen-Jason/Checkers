@@ -42,7 +42,7 @@ public class BoardSpace {
         return this.spaceRectangle;
     }
 
-    public int getCheckersPieceOwner(){
+    public Players getCheckersPieceOwner(){
         return this.checkersPiece.getPlayerNumber();
     }
 

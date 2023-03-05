@@ -35,7 +35,7 @@ public class DisplayHandler {
         for (BoardSpace space : boardSpaces){
 
             if(space.hasCheckersPiece()){
-                int ownerIndex = space.getCheckersPieceOwner() - 1;
+                int ownerIndex = space.getCheckersPieceOwner().playerNumber - 1;
                 int isSelected = space.isSelected();
                 this.batch.draw(this.pieceTextures.get(ownerIndex).get(isSelected), space.getX() + 10, space.getY() + 20, 80, 80);
             }

@@ -3,13 +3,13 @@ package com.game;
 
 public class CheckersPiece {
 
-    private final int playerNumber;
+    private final Players playerNumber;
 
-    CheckersPiece(int playerNumber){
+    CheckersPiece(Players playerNumber){
         this.playerNumber = playerNumber;
     }
 
-    public int getPlayerNumber(){
+    public Players getPlayerNumber(){
         return this.playerNumber;
     }
 
