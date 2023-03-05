@@ -18,7 +18,7 @@ public class EventHandler {
         this.camera = camera;
     }
 
-    public void handleTouch(Array<BoardSpace> boardSpaces){
+    public TouchEvent getTouchEvent(Array<BoardSpace> boardSpaces){
 
         if (Gdx.input.isTouched()){
             this.mousePoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -27,10 +27,13 @@ public class EventHandler {
 
             for(BoardSpace space : boardSpaces){
                 if (mouseRectangle.overlaps(space.getSpaceRectangle())){
-                    System.out.println("X: " + space.getX() + " Y: " + space.getY());
+                    return new TouchEvent(space);
                 }
             }
-        }
 
+        }
+        return null;
     }
+
+
 }
