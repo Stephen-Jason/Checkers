@@ -6,6 +6,7 @@ public class BoardSpace {
 
     private CheckersPiece checkersPiece;
     private int isSelected;
+    private boolean isPossibleMovementSpace;
     private int x;
     private int y;
     private Rectangle spaceRectangle;
@@ -16,6 +17,7 @@ public class BoardSpace {
         this.isSelected = 0;
         this.spaceRectangle = new Rectangle();
         this.spaceRectangle.set(x, y, 100, 100);
+        this.isPossibleMovementSpace = false;
     }
 
     public void setCheckersPiece(CheckersPiece checkersPiece){
@@ -52,5 +54,13 @@ public class BoardSpace {
 
     public void setIsSelected(int isSelected){
         this.isSelected = isSelected;
+    }
+
+    public void setIsPossibleMovementSpace(boolean isPossibleMovementSpace){
+        this.isPossibleMovementSpace = isPossibleMovementSpace;
+    }
+
+    public boolean isPossibleMovementSpace(){
+        return this.isPossibleMovementSpace;
     }
 }
