@@ -15,8 +15,8 @@ public abstract class SpaceHandler {
         if (boardSpace.hasCheckersPiece() && anyTouchedSpaces(boardSpaces) && alreadyTouchedSpace(boardSpaces) != null){
             if (boardSpace.equals(alreadyTouchedSpace(boardSpaces))){
                 boardSpace.setIsSelected(0);
-                return;
             }
+            return;
         }
 
     }

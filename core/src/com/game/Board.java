@@ -39,10 +39,10 @@ public class Board {
 
         for (byte index = 0; index < 64; index++){
             if (ArrayFunc.contains(index, redPieceIndexes)){
-                this.boardSpaces.get(index).setCheckersPiece(new CheckersPiece(2));
+                this.boardSpaces.get(index).setCheckersPiece(new CheckersPiece(Players.RED));
             }
             else if (ArrayFunc.contains(index, blackPieceIndexes)){
-                this.boardSpaces.get(index).setCheckersPiece(new CheckersPiece(1));
+                this.boardSpaces.get(index).setCheckersPiece(new CheckersPiece(Players.BLACK));
             }
 
         }
