@@ -23,9 +23,10 @@ public abstract class SpaceHandler {
 
 //        moving a selected piece to a valid empty space
         if (!boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
+            BoardSpace previousSpace = getPreviouslyTouchedSpace(boardSpaces);
 
-            if (!boardSpace.hasCheckersPiece()){
-                BoardSpace previousSpace = getPreviouslyTouchedSpace(boardSpaces);
+            if (isValidMovement(previousSpace, boardSpace, boardSpaces)){
+
                 previousSpace.setIsSelected(0);
                 Players pieceOwner = previousSpace.getCheckersPieceOwner();
                 previousSpace.removeCheckersPiece();
@@ -33,6 +34,32 @@ public abstract class SpaceHandler {
             }
         }
 
+    }
+
+    private static boolean isValidMovement(BoardSpace previousSpace, BoardSpace newSpace, Array<BoardSpace> boardSpaces){
+
+        int [] validMoveIndexes = getValidMoveIndexes(previousSpace, boardSpaces);
+        int newSpaceIndex = boardSpaces.indexOf(newSpace, false);
+        if (ArrayFunc.contains(newSpaceIndex, validMoveIndexes)){
+            return true;
+        }
+        return false;
+    }
+
+    private static int[] getValidMoveIndexes(BoardSpace previousSpace,  Array<BoardSpace> boardSpaces){
+        int[] validMoveIndexes = new int[2];
+        int previousSpaceIndex = boardSpaces.indexOf(previousSpace, false);
+
+        if (previousSpace.getCheckersPieceOwner().playerNumber == Players.RED.playerNumber && previousSpaceIndex <= 54){
+            validMoveIndexes[0] = previousSpaceIndex + 7;
+            validMoveIndexes[1] = previousSpaceIndex + 9;
+        }
+
+        else if (previousSpace.getCheckersPieceOwner().playerNumber == Players.BLACK.playerNumber && previousSpaceIndex > 8){
+            validMoveIndexes[0] = previousSpaceIndex - 7;
+            validMoveIndexes[1] = previousSpaceIndex - 9;
+        }
+        return validMoveIndexes;
     }
 
     private static boolean anyTouchedSpaces(Array<BoardSpace> boardSpaces){
