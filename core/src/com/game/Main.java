@@ -24,8 +24,7 @@ public class Main extends ApplicationAdapter {
 		camera.update();
 		this.batch.setProjectionMatrix(this.camera.combined);
 		this.batch.begin();
-		this.checkersGame.handleTouchEvents();
-		this.checkersGame.displayGame();
+		this.checkersGame.runGame();
 		this.batch.end();
 	}
 	

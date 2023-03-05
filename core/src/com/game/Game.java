@@ -19,12 +19,21 @@ public class Game {
         this.eventHandler = new EventHandler(camera);
     }
 
-    public void displayGame(){
+    public void runGame(){
+        this.handleTouchEvents();
+        this.displayGame();
+    }
+
+    private void displayGame(){
         this.displayHandler.draw(this.checkersBoard.getBoardSpaces());
     }
 
-    public void handleTouchEvents(){
-        this.eventHandler.handleTouch(this.checkersBoard.getBoardSpaces());
+    private void handleTouchEvents(){
+        TouchEvent touchEvent = this.eventHandler.getTouchEvent(this.checkersBoard.getBoardSpaces());
+        if (touchEvent != null){
+            System.out.println("X: " + touchEvent.getSpaceX() + "Y: " + touchEvent.getSpaceY());
+        }
+
     }
 
 }
