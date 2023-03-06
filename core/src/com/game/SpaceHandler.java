@@ -178,14 +178,14 @@ public abstract class SpaceHandler {
             }
         }
 
-    //        can only move right from previous space
-            if (ArrayFunc.contains(previousSpaceIndex, invalidCapturingLeftIndexes)){
-                validCaptureIndexes[0] = -1;
-            }
-    //        can only move left from previous space
-            if (ArrayFunc.contains(previousSpaceIndex, invalidCapturingRightIndexes)){
-                validCaptureIndexes[1] = -1;
-            }
+//        can only move right from previous space
+        if (ArrayFunc.contains(previousSpaceIndex, invalidCapturingLeftIndexes)){
+            validCaptureIndexes[0] = -1;
+        }
+//        can only move left from previous space
+        if (ArrayFunc.contains(previousSpaceIndex, invalidCapturingRightIndexes)){
+            validCaptureIndexes[1] = -1;
+        }
 
         return validCaptureIndexes;
     }
