@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class DisplayHandler {
     private final Array<Array<Texture>> pieceTextures;
+    private final Texture possibleMovementTexture;
     private final Texture boardTexture;
     private final SpriteBatch batch;
 
@@ -19,6 +20,7 @@ public class DisplayHandler {
         this.pieceTextures.get(1).add(new Texture(Gdx.files.internal("red_piece.png")));
         this.pieceTextures.get(1).add(new Texture(Gdx.files.internal("red_piece_selected.png")));
         this.boardTexture = new Texture(Gdx.files.internal("checkers_board.jpg"));
+        this.possibleMovementTexture = new Texture(Gdx.files.internal("possible_move.png"));
     }
 
     public void draw(Array<BoardSpace> boardSpaces){
@@ -38,6 +40,10 @@ public class DisplayHandler {
                 int ownerIndex = space.getCheckersPieceOwner().playerNumber - 1;
                 int isSelected = space.isSelected();
                 this.batch.draw(this.pieceTextures.get(ownerIndex).get(isSelected), space.getX() + 10, space.getY() + 20, 80, 80);
+            }
+
+            if(space.isPossibleMovementSpace()){
+                this.batch.draw(this.possibleMovementTexture, space.getX() + 30, space.getY() + 40, 40, 40);
             }
 
         }

@@ -10,6 +10,7 @@ public abstract class SpaceHandler {
 //        selecting a piece to move
         if (boardSpace.hasCheckersPiece() && !anyTouchedSpaces(boardSpaces)){
             boardSpace.setIsSelected(1);
+            addPossibleMovementSpaces(getPreviouslyTouchedSpace(boardSpaces), boardSpaces);
             return;
         }
 
@@ -17,6 +18,7 @@ public abstract class SpaceHandler {
         if (boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
             if (boardSpace.equals(getPreviouslyTouchedSpace(boardSpaces))){
                 boardSpace.setIsSelected(0);
+                removeAllPossibleMovementSpaces(boardSpaces);
             }
             return;
         }
@@ -31,12 +33,33 @@ public abstract class SpaceHandler {
                 Players pieceOwner = previousSpace.getCheckersPieceOwner();
                 previousSpace.removeCheckersPiece();
                 boardSpace.setCheckersPiece(new CheckersPiece(pieceOwner));
+                removeAllPossibleMovementSpaces(boardSpaces);
             }
         }
 
 //        capturing an enemy piece
 
 
+    }
+
+
+    private static void addPossibleMovementSpaces(BoardSpace previousSpace, Array<BoardSpace> boardSpaces){
+        int[] validMovementIndexes = getValidMoveIndexes(previousSpace, boardSpaces);
+
+        for(int index = 0; index < validMovementIndexes.length; index++){
+
+            if(!boardSpaces.get(validMovementIndexes[index]).hasCheckersPiece()){
+                boardSpaces.get(validMovementIndexes[index]).setIsPossibleMovementSpace(true);
+            }
+
+        }
+    }
+
+
+    private static void removeAllPossibleMovementSpaces(Array<BoardSpace> boardSpaces){
+        for (int index = 0; index < boardSpaces.size; index++){
+            boardSpaces.get(index).setIsPossibleMovementSpace(false);
+        }
     }
 
 
@@ -66,8 +89,8 @@ public abstract class SpaceHandler {
 
 //        black player can move left or right
         if (blackPlayerAboveBottomLine){
-            validMovementIndexes[0] = previousSpaceIndex - 7;
-            validMovementIndexes[1] = previousSpaceIndex - 9;
+            validMovementIndexes[0] = previousSpaceIndex - 9;
+            validMovementIndexes[1] = previousSpaceIndex - 7;
         }
 
 //        can only move right from previous space
