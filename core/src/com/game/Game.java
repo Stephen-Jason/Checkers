@@ -25,14 +25,14 @@ public class Game {
     }
 
     private void displayGame(){
-        this.displayHandler.draw(this.checkersBoard.getBoardSpaces());
+//        this.displayHandler.draw(this.checkersBoard.getBoardSpaces());
     }
 
     private void handleTouchEvents(){
-        BoardSpace touchedSpace = this.eventHandler.getTouchedSpace(this.checkersBoard.getBoardSpaces());
-        if (touchedSpace != null){
-            SpaceHandler.handleSpace(touchedSpace, this.checkersBoard.getBoardSpaces());
-        }
+//        BoardSpace touchedSpace = this.eventHandler.getTouchedSpace(this.checkersBoard.getBoardSpaces());
+//        if (touchedSpace != null){
+//            SpaceHandler.handleSpace(touchedSpace, this.checkersBoard.getBoardSpaces());
+//        }
 
     }
 
