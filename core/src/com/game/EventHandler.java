@@ -21,7 +21,7 @@ public class EventHandler {
         this.lastTouchedTime = TimeUtils.nanoTime();
     }
 
-    public TouchEvent getTouchEvent(Array<BoardSpace> boardSpaces){
+    public BoardSpace getTouchedSpace(Array<BoardSpace> boardSpaces){
 
         if (Gdx.input.isTouched()){
             this.mousePoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -31,7 +31,7 @@ public class EventHandler {
             for(BoardSpace space : boardSpaces){
                 if (mouseRectangle.overlaps(space.getSpaceRectangle()) && TimeUtils.nanoTime() - this.lastTouchedTime > 300000000){
                     this.lastTouchedTime = TimeUtils.nanoTime();
-                    return new TouchEvent(space);
+                    return space;
                 }
             }
 
