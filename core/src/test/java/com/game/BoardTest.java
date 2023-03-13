@@ -10,6 +10,43 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
 
+    private Array<Array<BoardSpace>> getDummyBoardSpaces(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+//        red pieces line 1
+        boardSpaces.get(0).get(0).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(0).get(2).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(0).get(4).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(0).get(6).setCheckersPiece(new CheckersPiece(Players.RED));
+//        red pieces line 2
+        boardSpaces.get(1).get(1).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(1).get(3).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(1).get(5).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(1).get(7).setCheckersPiece(new CheckersPiece(Players.RED));
+//        red pieces line 3
+        boardSpaces.get(2).get(0).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(2).get(2).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(2).get(4).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(2).get(6).setCheckersPiece(new CheckersPiece(Players.RED));
+//        black pieces line 1
+        boardSpaces.get(0).get(0).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(0).get(2).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(0).get(4).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(0).get(6).setCheckersPiece(new CheckersPiece(Players.RED));
+//        black pieces line 2
+        boardSpaces.get(1).get(1).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(1).get(3).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(1).get(5).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(1).get(7).setCheckersPiece(new CheckersPiece(Players.RED));
+//        black pieces line 3
+        boardSpaces.get(2).get(0).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(2).get(2).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(2).get(4).setCheckersPiece(new CheckersPiece(Players.RED));
+        boardSpaces.get(2).get(6).setCheckersPiece(new CheckersPiece(Players.RED));
+
+    }
+
+
     private Array<Array<Point>> getDummyCoordinates(){
         Array<Array<Point>> dummyArray = new Array<>();
         int x = 20;

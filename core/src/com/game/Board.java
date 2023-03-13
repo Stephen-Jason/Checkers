@@ -11,25 +11,6 @@ public class Board {
 //        this.addCheckersPiecesToBoard();
     }
 
-//    private void createBoardSpaces(){
-//        boardSpaces = new Array<>();
-//        int x = 20;
-//        int y = 20;
-//
-//        for (byte count = 0; count < 64; count++){
-//
-//            if(count % 8 == 0 && count != 0){
-//                y += 95;
-//                x = 20;
-//            }
-//            else if (count != 0){
-//                x += 94;
-//            }
-//
-//            boardSpaces.add(new BoardSpace(x, y));
-//        }
-//    }
-
 
     private void createBoardSpaces(){
         this.boardSpaces = new Array<>();
