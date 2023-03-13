@@ -25,7 +25,7 @@ public class Game {
     }
 
     private void displayGame(){
-//        this.displayHandler.draw(this.checkersBoard.getBoardSpaces());
+        this.displayHandler.draw(this.checkersBoard.getBoardSpaces());
     }
 
     private void handleTouchEvents(){

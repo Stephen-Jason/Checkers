@@ -14,36 +14,47 @@ class BoardTest {
         Board board = new Board();
         Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
 //        red pieces line 1
-        boardSpaces.get(0).get(0).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(0).get(2).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(0).get(4).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(0).get(6).setCheckersPiece(new CheckersPiece(Players.RED));
-//        red pieces line 2
-        boardSpaces.get(1).get(1).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(1).get(3).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(1).get(5).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(1).get(7).setCheckersPiece(new CheckersPiece(Players.RED));
-//        red pieces line 3
-        boardSpaces.get(2).get(0).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(2).get(2).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(2).get(4).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(2).get(6).setCheckersPiece(new CheckersPiece(Players.RED));
-//        black pieces line 1
-        boardSpaces.get(0).get(0).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(0).get(2).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(0).get(4).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(0).get(6).setCheckersPiece(new CheckersPiece(Players.RED));
-//        black pieces line 2
-        boardSpaces.get(1).get(1).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(1).get(3).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(1).get(5).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(1).get(7).setCheckersPiece(new CheckersPiece(Players.RED));
-//        black pieces line 3
-        boardSpaces.get(2).get(0).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(2).get(2).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(2).get(4).setCheckersPiece(new CheckersPiece(Players.RED));
-        boardSpaces.get(2).get(6).setCheckersPiece(new CheckersPiece(Players.RED));
+        for (byte index = 0; index < 8; index++){
+            if (index == 0 || index % 2 == 0){
+                boardSpaces.get(0).get(index).setCheckersPiece(new CheckersPiece(Players.RED));
+            }
+        }
 
+//        red pieces line 2
+        for (byte index = 0; index < 8; index++){
+            if (index == 1 || (index + 1) % 2 == 0){
+                boardSpaces.get(1).get(index).setCheckersPiece(new CheckersPiece(Players.RED));
+            }
+        }
+
+//        red pieces line 3
+        for (byte index = 0; index < 8; index++){
+            if (index == 0 || index % 2 == 0){
+                boardSpaces.get(2).get(index).setCheckersPiece(new CheckersPiece(Players.RED));
+            }
+        }
+
+//        black pieces line 1
+        for (byte index = 0; index < 8; index++){
+            if ((index + 1) % 2 == 0){
+                boardSpaces.get(5).get(index).setCheckersPiece(new CheckersPiece(Players.BLACK));
+            }
+        }
+
+//        black pieces line 2
+//        for (byte index = 0; index < 8; index++){
+//            if (index == 0 || index % 2 == 0){
+//                boardSpaces.get(6).get(index).setCheckersPiece(new CheckersPiece(Players.BLACK));
+//            }
+//        }
+//
+////        black pieces line 3
+//        for (byte index = 0; index < 8; index++){
+//            if ((index + 1) % 2 == 0){
+//                boardSpaces.get(7).get(index).setCheckersPiece(new CheckersPiece(Players.BLACK));
+//            }
+//        }
+        return boardSpaces;
     }
 
 
@@ -108,6 +119,44 @@ class BoardTest {
     }
 
 
+    @Test public void initialPieceSetupIsCorrect(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> dummyBoardSpaces = this.getDummyBoardSpaces();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+
+        for(byte rowIndex = 0; rowIndex < 8; rowIndex++){
+            Array<BoardSpace> boardRow = boardSpaces.get(rowIndex);
+            Array<BoardSpace> dummyBoardRow = dummyBoardSpaces.get(rowIndex);
+
+            for (byte columnIndex = 0; columnIndex < 8; columnIndex++){
+                assertEquals(boardRow.get(columnIndex).hasCheckersPiece(), dummyBoardRow.get(columnIndex).hasCheckersPiece(),
+                        "The BoardSpace at ("+boardRow.get(columnIndex).getX()+", "+boardRow.get(columnIndex).getY()+") should have a piece after initial setup\n"+
+                        "dummyBoardSpace has space: " + dummyBoardRow.get(columnIndex).hasCheckersPiece()+ "\nBoardSpace has space: " + boardRow.get(columnIndex).hasCheckersPiece());
+            }
+
+        }
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
