@@ -13,6 +13,8 @@ public class EventHandler {
     private Rectangle mouseRectangle;
     private final OrthographicCamera camera;
     private long lastTouchedTime;
+    private BoardSpace tempBoardSpace;
+    private Array<BoardSpace> tempBoardSpaceRow;
 
     EventHandler(OrthographicCamera camera){
         this.mousePoint = new Vector3();
@@ -21,22 +23,44 @@ public class EventHandler {
         this.lastTouchedTime = TimeUtils.nanoTime();
     }
 
-    public BoardSpace getTouchedSpace(Array<BoardSpace> boardSpaces){
+    public BoardSpace getTouchedSpace(Array<Array<BoardSpace>> boardSpaces){
 
-        if (Gdx.input.isTouched()){
-            this.mousePoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(mousePoint);
-            this.mouseRectangle.set(this.mousePoint.x, this.mousePoint.y, 5, 5);
+        if (!Gdx.input.isTouched()){
+            return null;
+        }
 
-            for(BoardSpace space : boardSpaces){
-                if (mouseRectangle.overlaps(space.getSpaceRectangle()) && TimeUtils.nanoTime() - this.lastTouchedTime > 300000000){
+        this.createMouseRectangle();
+
+        for(byte rowIndex = 0; rowIndex < 8; rowIndex++){
+            this.tempBoardSpaceRow = boardSpaces.get(rowIndex);
+
+            for(byte columnIndex = 0; columnIndex < 8; columnIndex++){
+                this.tempBoardSpace = tempBoardSpaceRow.get(columnIndex);
+
+                if (mouseOverlapsBoardSpace(this.tempBoardSpace) && isValidTimeBetweenTouches()){
                     this.lastTouchedTime = TimeUtils.nanoTime();
-                    return space;
+                    return this.tempBoardSpace;
                 }
             }
-
         }
         return null;
+    }
+
+
+    private void createMouseRectangle(){
+        this.mousePoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        this.camera.unproject(mousePoint);
+        this.mouseRectangle.set(this.mousePoint.x, this.mousePoint.y, 5, 5);
+    }
+
+
+    private boolean mouseOverlapsBoardSpace(BoardSpace boardSpace){
+        return mouseRectangle.overlaps(boardSpace.getSpaceRectangle());
+    }
+
+
+    private boolean isValidTimeBetweenTouches(){
+        return TimeUtils.nanoTime() - this.lastTouchedTime > 300000000;
     }
 
 
