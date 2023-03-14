@@ -46,4 +46,36 @@ public class EventHandlerTest {
 
         assertFalse(actual);
     }
+
+
+    @Test
+    public void isDeselectingAPieceTrue(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace prevSelectedSpace = boardSpaces.get(0).get(0);
+        prevSelectedSpace.setIsSelected(1);
+        BoardSpace touchedSpace = boardSpaces.get(0).get(0);
+        boolean touchedSpaceHasPiece = touchedSpace.hasCheckersPiece();
+        BoardSpace prevTouchedSpace = BoardUtils.getPreviouslyTouchedSpace(boardSpaces);
+        boolean prevTouchedSpaceIsCurrentSpace = prevTouchedSpace == touchedSpace;
+        boolean actual = EventHandler.isDeselectingPiece(touchedSpaceHasPiece, prevTouchedSpaceIsCurrentSpace);
+
+        assertTrue(actual);
+    }
+
+
+    @Test
+    public void isDeselectingAPieceFalse(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace prevSelectedSpace = boardSpaces.get(0).get(1);
+        prevSelectedSpace.setIsSelected(1);
+        BoardSpace touchedSpace = boardSpaces.get(0).get(0);
+        boolean touchedSpaceHasPiece = touchedSpace.hasCheckersPiece();
+        BoardSpace prevTouchedSpace = BoardUtils.getPreviouslyTouchedSpace(boardSpaces);
+        boolean prevTouchedSpaceIsCurrentSpace = prevTouchedSpace == touchedSpace;
+        boolean actual = EventHandler.isDeselectingPiece(touchedSpaceHasPiece, prevTouchedSpaceIsCurrentSpace);
+
+        assertFalse(actual);
+    }
 }

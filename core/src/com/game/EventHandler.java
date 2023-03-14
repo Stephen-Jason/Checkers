@@ -53,8 +53,14 @@ public abstract class EventHandler {
 
     }
 
+
     public static boolean isSelectingPiece(boolean touchedSpaceHasPiece, boolean prevSelectedPieces){
         return touchedSpaceHasPiece && !prevSelectedPieces;
+    }
+
+
+    public static boolean isDeselectingPiece(boolean touchedSpaceHasPiece, boolean prevTouchedSpaceIsCurrentSpace){
+        return touchedSpaceHasPiece && prevTouchedSpaceIsCurrentSpace;
     }
 
     private static void removeCapturedPiece(Players pieceOwner, Array<BoardSpace> boardSpaces, BoardSpace boardSpace, int direction){
