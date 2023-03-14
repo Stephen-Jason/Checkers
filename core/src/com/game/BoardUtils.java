@@ -21,4 +21,12 @@ public abstract class BoardUtils {
         return null;
     }
 
+
+    public static boolean prevSelectedPieces(Array<Array<BoardSpace>> boardSpaces){
+        if (getPreviouslyTouchedSpace(boardSpaces) == null){
+            return false;
+        }
+        return true;
+    }
+
 }

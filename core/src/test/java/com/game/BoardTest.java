@@ -42,18 +42,18 @@ class BoardTest {
         }
 
 //        black pieces line 2
-//        for (byte index = 0; index < 8; index++){
-//            if (index == 0 || index % 2 == 0){
-//                boardSpaces.get(6).get(index).setCheckersPiece(new CheckersPiece(Players.BLACK));
-//            }
-//        }
-//
-////        black pieces line 3
-//        for (byte index = 0; index < 8; index++){
-//            if ((index + 1) % 2 == 0){
-//                boardSpaces.get(7).get(index).setCheckersPiece(new CheckersPiece(Players.BLACK));
-//            }
-//        }
+        for (byte index = 0; index < 8; index++){
+            if (index == 0 || index % 2 == 0){
+                boardSpaces.get(6).get(index).setCheckersPiece(new CheckersPiece(Players.BLACK));
+            }
+        }
+
+//        black pieces line 3
+        for (byte index = 0; index < 8; index++){
+            if ((index + 1) % 2 == 0){
+                boardSpaces.get(7).get(index).setCheckersPiece(new CheckersPiece(Players.BLACK));
+            }
+        }
         return boardSpaces;
     }
 

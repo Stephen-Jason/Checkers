@@ -8,7 +8,7 @@ public class Game {
     private final Board checkersBoard;
     private final SpriteBatch batch;
     private final DisplayHandler displayHandler;
-    private final EventHandler eventHandler;
+    private final TouchEvent touchEvent;
     private final OrthographicCamera camera;
 
     Game(SpriteBatch batch, OrthographicCamera camera){
@@ -16,7 +16,7 @@ public class Game {
         this.checkersBoard = new Board();
         this.displayHandler = new DisplayHandler(this.batch);
         this.camera = camera;
-        this.eventHandler = new EventHandler(camera);
+        this.touchEvent = new TouchEvent(camera);
     }
 
     public void runGame(){
@@ -29,9 +29,9 @@ public class Game {
     }
 
     private void handleTouchEvents(){
-        BoardSpace touchedSpace = this.eventHandler.getTouchedSpace(this.checkersBoard.getBoardSpaces());
+        BoardSpace touchedSpace = this.touchEvent.getTouchedSpace(this.checkersBoard.getBoardSpaces());
 //        if (touchedSpace != null){
-//            SpaceHandler.handleSpace(touchedSpace, this.checkersBoard.getBoardSpaces());
+//            EventHandler.handleSpace(touchedSpace, this.checkersBoard.getBoardSpaces());
 //        }
 
     }
