@@ -78,4 +78,16 @@ public class EventHandlerTest {
 
         assertFalse(actual);
     }
+
+
+    @Test
+    public void getValidMoveIndexes(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace selectedSpace = boardSpaces.get(0).get(0);
+        BoardSpace spaceToMoveTo = boardSpaces.get(1).get(1);
+
+
+    }
+
 }
