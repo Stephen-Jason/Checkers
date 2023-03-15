@@ -63,6 +63,24 @@ public abstract class EventHandler {
         return touchedSpaceHasPiece && prevTouchedSpaceIsCurrentSpace;
     }
 
+
+    public static boolean isValidMove(BoardSpace selectedSpace, BoardSpace spaceToMoveTo, Players player){
+        if(spaceToMoveTo.hasCheckersPiece()){
+            return false;
+        }
+
+        int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
+        int[] spaceToMoveToIndexes = spaceToMoveTo.getSpaceIndexes();
+
+        boolean isValidUpwardsMovement = player == Players.RED
+                ? spaceToMoveToIndexes[0] - selectedSpaceIndexes[0] == 1 && selectedSpaceIndexes[0] < 7
+                : selectedSpaceIndexes[0] - spaceToMoveToIndexes[0] == 1 && selectedSpaceIndexes[0] > 0;
+
+        boolean isValidDiagonalMovement = spaceToMoveToIndexes[1] - selectedSpaceIndexes[1] == 1
+                || spaceToMoveToIndexes[1] + 1 == selectedSpaceIndexes[1];
+        return isValidUpwardsMovement && isValidDiagonalMovement;
+    }
+
     private static void removeCapturedPiece(Players pieceOwner, Array<BoardSpace> boardSpaces, BoardSpace boardSpace, int direction){
         int boardSpaceIndex = boardSpaces.indexOf(boardSpace, false);
 
