@@ -86,11 +86,29 @@ public abstract class EventHandler {
         if(spaceToMoveTo.hasCheckersPiece()){
             return false;
         }
-        int[] capturedSpaceIndex;
         int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
         int[] spaceToMoveToIndexes = spaceToMoveTo.getSpaceIndexes();
+        int[] capturedSpaceIndex = getCapturedSpaceIndexes(spaceToMoveToIndexes, selectedSpaceIndexes, player);
 
-//        capturing to the right
+
+
+        boolean isValidUpwardsMovement = player == Players.RED
+                ? spaceToMoveToIndexes[0] - selectedSpaceIndexes[0] == 2 && selectedSpaceIndexes[0] < 6
+                : selectedSpaceIndexes[0] - spaceToMoveToIndexes[0] == 2 && selectedSpaceIndexes[0] > 1;
+
+        boolean isValidDiagonalMovement = spaceToMoveToIndexes[1] - selectedSpaceIndexes[1] == 2
+                || spaceToMoveToIndexes[1] + 2 == selectedSpaceIndexes[1];
+
+        BoardSpace capturedSpace = BoardUtils.getBoardSpaceByIndexes(capturedSpaceIndex, boardSpaces);
+
+        return isValidUpwardsMovement && isValidDiagonalMovement && isEnemyPiece(capturedSpace, player);
+    }
+
+
+    private static int[] getCapturedSpaceIndexes(int[] spaceToMoveToIndexes, int[] selectedSpaceIndexes, Players player){
+        int[] capturedSpaceIndex;
+
+        //        capturing to the right
         if(spaceToMoveToIndexes[1] > selectedSpaceIndexes[1]){
             capturedSpaceIndex = player == Players.RED
                     ? new int[] {selectedSpaceIndexes[0]+1, selectedSpaceIndexes[1]+1}
@@ -104,16 +122,7 @@ public abstract class EventHandler {
                     : new int[] {selectedSpaceIndexes[0]-1, selectedSpaceIndexes[1]-1};
         }
 
-        boolean isValidUpwardsMovement = player == Players.RED
-                ? spaceToMoveToIndexes[0] - selectedSpaceIndexes[0] == 2 && selectedSpaceIndexes[0] < 6
-                : selectedSpaceIndexes[0] - spaceToMoveToIndexes[0] == 2 && selectedSpaceIndexes[0] > 1;
-
-        boolean isValidDiagonalMovement = spaceToMoveToIndexes[1] - selectedSpaceIndexes[1] == 2
-                || spaceToMoveToIndexes[1] + 2 == selectedSpaceIndexes[1];
-
-        BoardSpace capturedSpace = BoardUtils.getBoardSpaceByIndexes(capturedSpaceIndex, boardSpaces);
-
-        return isValidUpwardsMovement && isValidDiagonalMovement && isEnemyPiece(capturedSpace, player);
+        return capturedSpaceIndex;
     }
 
 
