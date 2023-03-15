@@ -29,4 +29,9 @@ public abstract class BoardUtils {
         return true;
     }
 
+
+    public static BoardSpace getBoardSpaceByIndexes(int[] boardSpaceIndexes, Array<Array<BoardSpace>> boardSpaces){
+        return boardSpaces.get(boardSpaceIndexes[0]).get(boardSpaceIndexes[1]);
+    }
+
 }
