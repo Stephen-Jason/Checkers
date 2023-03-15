@@ -48,14 +48,4 @@ public class BoardUtilsTest {
         assertTrue(actual);
     }
 
-
-    @Test
-    public void getIndexesOfBoardSpace(){
-        Board board = new Board();
-        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
-        BoardSpace boardSpace = boardSpaces.get(0).get(0);
-        int[][] actual = BoardUtils.getIndexOfBoardSpace(boardSpace, boardSpaces);
-//        int[][] expected
-
-    }
 }

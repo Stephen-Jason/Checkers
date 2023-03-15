@@ -138,6 +138,17 @@ class BoardTest {
     }
 
 
+    @Test
+    public void isValidMoveTrue(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace selectedSpace = boardSpaces.get(2).get(0);
+        BoardSpace spaceToMoveTo = boardSpaces.get(3).get(1);
+
+//        boolean isValidMove = EventHandler.isValidMove(BoardSpace)
+    }
+
+
 }
 
 

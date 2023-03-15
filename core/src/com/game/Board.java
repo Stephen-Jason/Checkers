@@ -16,19 +16,19 @@ public class Board {
         int x = 20;
         int y = 20;
 
-        for(byte count = 0; count < 8; count++){
+        for(byte rowIndex = 0; rowIndex < 8; rowIndex++){
             Array<BoardSpace> innerBoardSpaceArray = new Array<>();
 
-            for (byte index = 0; index < 8; index++){
+            for (byte columnIndex = 0; columnIndex < 8; columnIndex++){
 
-                if (index == 0){
+                if (columnIndex == 0){
                     x = 20;
                 }
                 else{
                     x += 94;
                 }
 
-                innerBoardSpaceArray.add(new BoardSpace(x, y));
+                innerBoardSpaceArray.add(new BoardSpace(x, y, new int[]{rowIndex, columnIndex}));
             }
             y += 95;
             this.boardSpaces.add(innerBoardSpaceArray);
