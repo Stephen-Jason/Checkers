@@ -72,13 +72,8 @@ public abstract class EventHandler {
         int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
         int[] spaceToMoveToIndexes = spaceToMoveTo.getSpaceIndexes();
 
-        boolean isValidUpwardsMovement = player == Players.RED
-                ? spaceToMoveToIndexes[0] - selectedSpaceIndexes[0] == 1 && selectedSpaceIndexes[0] < 7
-                : selectedSpaceIndexes[0] - spaceToMoveToIndexes[0] == 1 && selectedSpaceIndexes[0] > 0;
-
-        boolean isValidDiagonalMovement = spaceToMoveToIndexes[1] - selectedSpaceIndexes[1] == 1
-                || spaceToMoveToIndexes[1] + 1 == selectedSpaceIndexes[1];
-        return isValidUpwardsMovement && isValidDiagonalMovement;
+        return isValidVerticalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.MOVE)
+                && isValidHorizontalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.MOVE);
     }
 
 
@@ -90,19 +85,11 @@ public abstract class EventHandler {
         int[] spaceToMoveToIndexes = spaceToMoveTo.getSpaceIndexes();
         int[] capturedSpaceIndex = getCapturedSpaceIndexes(spaceToMoveToIndexes, selectedSpaceIndexes, player);
 
-
-
-//        boolean isValidUpwardsMovement = player == Players.RED
-//                ? spaceToMoveToIndexes[0] - selectedSpaceIndexes[0] == 2 && selectedSpaceIndexes[0] < 6
-//                : selectedSpaceIndexes[0] - spaceToMoveToIndexes[0] == 2 && selectedSpaceIndexes[0] > 1;
-
-        boolean isValidDiagonalMovement = spaceToMoveToIndexes[1] - selectedSpaceIndexes[1] == 2
-                || spaceToMoveToIndexes[1] + 2 == selectedSpaceIndexes[1];
-
         BoardSpace capturedSpace = BoardUtils.getBoardSpaceByIndexes(capturedSpaceIndex, boardSpaces);
 
-        return isValidVerticalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player)
-                && isValidDiagonalMovement && isEnemyPiece(capturedSpace, player);
+        return isValidVerticalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.CAPTURE)
+                && isValidHorizontalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.CAPTURE)
+                && isEnemyPiece(capturedSpace, player);
     }
 
 
@@ -127,10 +114,18 @@ public abstract class EventHandler {
     }
 
 
-    private static boolean isValidVerticalMovement(int[] spaceToMoveToIndexes, int[] selectedSpaceIndexes, Players player){
+    private static boolean isValidVerticalMovement(int[] spaceToMoveToIndexes, int[] selectedSpaceIndexes, Players player, MoveValues moveValues){
         return player == Players.RED
-                ? spaceToMoveToIndexes[0] - selectedSpaceIndexes[0] == 2 && selectedSpaceIndexes[0] < 6
-                : selectedSpaceIndexes[0] - spaceToMoveToIndexes[0] == 2 && selectedSpaceIndexes[0] > 1;
+                ? spaceToMoveToIndexes[0] - selectedSpaceIndexes[0] == moveValues.spaceDifference
+                && selectedSpaceIndexes[0] < moveValues.upperBoundary
+                : selectedSpaceIndexes[0] - spaceToMoveToIndexes[0] == moveValues.spaceDifference
+                && selectedSpaceIndexes[0] > moveValues.lowerBoundary;
+    }
+
+
+    private static boolean isValidHorizontalMovement(int[] spaceToMoveToIndexes, int[] selectedSpaceIndexes, Players player, MoveValues moveValues){
+        return spaceToMoveToIndexes[1] - selectedSpaceIndexes[1] == moveValues.spaceDifference
+                || spaceToMoveToIndexes[1] + moveValues.spaceDifference == selectedSpaceIndexes[1];
     }
 
 
