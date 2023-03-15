@@ -5,23 +5,28 @@ import com.badlogic.gdx.utils.Array;
 public abstract class EventHandler {
 
 
-    public static void handleEvent(BoardSpace boardSpace, Array<Array<BoardSpace>> boardSpaces){
+    public static void handleEvent(BoardSpace currentSpace, Array<Array<BoardSpace>> boardSpaces){
+        BoardSpace prevTouchedSpace = BoardUtils.getPreviouslyTouchedSpace(boardSpaces);
+        boolean currentTouchedSpaceHasPiece = currentSpace.hasCheckersPiece();
+        boolean prevTouchedSpaceHasPiece = BoardUtils.prevSelectedPieces(boardSpaces);
 
-////        selecting a piece to move
-//        if (boardSpace.hasCheckersPiece() && !anyTouchedSpaces(boardSpaces)){
-//            boardSpace.setIsSelected(1);
-//            addPossibleMovementSpaces(getPreviouslyTouchedSpace(boardSpaces), boardSpaces);
-//            return;
-//        }
 
-////        deselecting a piece that was already selected
-//        if (boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
-//            if (boardSpace.equals(getPreviouslyTouchedSpace(boardSpaces))){
-//                boardSpace.setIsSelected(0);
-//                removeAllPossibleMovementSpaces(boardSpaces);
-//            }
-//            return;
-//        }
+        if(isSelectingPiece(currentTouchedSpaceHasPiece, prevTouchedSpaceHasPiece)){
+            selectPiece(currentSpace);
+        }
+
+        if(isDeselectingPiece(currentTouchedSpaceHasPiece, currentSpace == prevTouchedSpace)){
+            deselectPiece(currentSpace);
+        }
+
+        if(isMovingPiece(currentTouchedSpaceHasPiece, prevTouchedSpace)){
+            Players player = prevTouchedSpace.getCheckersPieceOwner();
+            if(isValidMove(currentSpace, prevTouchedSpace, player)){
+                movePiece(currentSpace, prevTouchedSpace, player);// TODO
+            }
+
+        }
+
 //
 ////        moving a selected piece to a valid empty space
 //        if (!boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
@@ -64,13 +69,18 @@ public abstract class EventHandler {
     }
 
 
-    public static boolean isValidMove(BoardSpace selectedSpace, BoardSpace spaceToMoveTo, Players player){
-        if(spaceToMoveTo.hasCheckersPiece()){
+    public static boolean isMovingPiece(boolean touchedSpaceHasPiece, BoardSpace prevTouchedSpace){
+        return !touchedSpaceHasPiece && prevTouchedSpace != null;
+    }
+
+
+    public static boolean isValidMove(BoardSpace prevTouchedSpace, BoardSpace currentSpace, Players player){
+        if(currentSpace.hasCheckersPiece()){
             return false;
         }
 
-        int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
-        int[] spaceToMoveToIndexes = spaceToMoveTo.getSpaceIndexes();
+        int[] selectedSpaceIndexes = prevTouchedSpace.getSpaceIndexes();
+        int[] spaceToMoveToIndexes = currentSpace.getSpaceIndexes();
 
         return isValidVerticalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.MOVE)
                 && isValidHorizontalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.MOVE);
@@ -131,6 +141,23 @@ public abstract class EventHandler {
 
     private static boolean isEnemyPiece(BoardSpace capturedSpace, Players currentPlayer){
         return capturedSpace.hasCheckersPiece() && capturedSpace.getCheckersPieceOwner().playerNumber != currentPlayer.playerNumber;
+    }
+
+
+    private static void selectPiece(BoardSpace boardSpace){
+        boardSpace.setIsSelected(1);
+    }
+
+
+    private static void deselectPiece(BoardSpace boardSpace){
+        boardSpace.setIsSelected(0);
+    }
+
+
+    private static void movePiece(BoardSpace currentSpace, BoardSpace prevTouchedSpace, Players player){
+        prevTouchedSpace.removeCheckersPiece();
+        prevTouchedSpace.setIsSelected(0);
+        currentSpace.setCheckersPiece(new CheckersPiece(player));
     }
 
 

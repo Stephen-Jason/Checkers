@@ -30,9 +30,9 @@ public class Game {
 
     private void handleTouchEvents(){
         BoardSpace touchedSpace = this.touchEvent.getTouchedSpace(this.checkersBoard.getBoardSpaces());
-//        if (touchedSpace != null){
-//            EventHandler.handleSpace(touchedSpace, this.checkersBoard.getBoardSpaces());
-//        }
+        if (touchedSpace != null){
+            EventHandler.handleEvent(touchedSpace, this.checkersBoard.getBoardSpaces());
+        }
 
     }
 
