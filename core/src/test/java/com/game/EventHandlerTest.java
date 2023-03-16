@@ -87,7 +87,7 @@ public class EventHandlerTest {
         BoardSpace selectedSpace = boardSpaces.get(2).get(0);
         BoardSpace spaceToMoveTo = boardSpaces.get(3).get(1);
         Players player = selectedSpace.getCheckersPieceOwner();
-        boolean isValidMove = EventHandler.isValidMove(selectedSpace, spaceToMoveTo, player);
+        boolean isValidMove = EventHandler.isValidMove(spaceToMoveTo, selectedSpace, player);
 
         assertTrue(isValidMove);
     }
@@ -113,7 +113,7 @@ public class EventHandlerTest {
         BoardSpace selectedSpace = boardSpaces.get(5).get(1);
         BoardSpace spaceToMoveTo = boardSpaces.get(4).get(0);
         Players player = selectedSpace.getCheckersPieceOwner();
-        boolean isValidMove = EventHandler.isValidMove(selectedSpace, spaceToMoveTo, player);
+        boolean isValidMove = EventHandler.isValidMove(spaceToMoveTo, selectedSpace, player);
 
         assertTrue(isValidMove);
     }
@@ -190,5 +190,68 @@ public class EventHandlerTest {
 
         assertFalse(isValidCapture);
     }
+
+
+    @Test
+    public void getPossibleMovesIndexesRedPlayerRightOnly(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace selectedSpace = boardSpaces.get(2).get(0);
+        Players player = selectedSpace.getCheckersPieceOwner();
+        int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
+        Array<int[]> actual = EventHandler.getPossibleMoveIndexes(selectedSpaceIndexes, player, boardSpaces);
+        Array<int[]> expected = new Array<>();
+        expected.add(new int[]{3, 1});
+
+        assertArrayEquals(expected.get(0), actual.get(0));
+    }
+
+
+    @Test
+    public void getPossibleMovesIndexesRedPlayerLeftOnly(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace selectedSpace = boardSpaces.get(1).get(7);
+        boardSpaces.get(2).get(6).removeCheckersPiece();
+        Players player = selectedSpace.getCheckersPieceOwner();
+        int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
+        Array<int[]> actual = EventHandler.getPossibleMoveIndexes(selectedSpaceIndexes, player, boardSpaces);
+        Array<int[]> expected = new Array<>();
+        expected.add(new int[]{2, 6});
+
+        assertArrayEquals(expected.get(0), actual.get(0));
+    }
+
+
+    @Test
+    public void getPossibleMovesIndexesRedPlayerLeftAndRight(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace selectedSpace = boardSpaces.get(2).get(2);
+        Players player = selectedSpace.getCheckersPieceOwner();
+        int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
+        Array<int[]> actual = EventHandler.getPossibleMoveIndexes(selectedSpaceIndexes, player, boardSpaces);
+        Array<int[]> expected = new Array<>();
+        expected.add(new int[]{});
+
+
+        int[][] actual = EventHandler.getPossibleMoveIndexes(selectedSpaceIndexes, player);
+        int[][] expected = new int[][]{{3, 1}, {3, 3}};
+
+    }
+//
+//
+//    @Test
+//    public void getPossibleMovesIndexesBlackPlayerRightOnly(){
+//        Board board = new Board();
+//        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+//        BoardSpace selectedSpace = boardSpaces.get(2).get(0);
+//        Players player = selectedSpace.getCheckersPieceOwner();
+//        int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
+//        int[][] actual = EventHandler.getPossibleMoveIndexes(selectedSpaceIndexes, player);
+//        int[][] expected = new int[][]{{3, -1}, {3, 1}};
+//
+//        assertArrayEquals(expected, actual, "possible move left was : "+actual[0][0]+", " + actual[0][1] + " possible move right was : "+actual[1][0] + ", "+actual[1][0]);
+//    }
 
 }

@@ -28,20 +28,7 @@ public abstract class EventHandler {
 
         }
 
-//
-////        moving a selected piece to a valid empty space
-//        if (!boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
-//            BoardSpace previousSpace = getPreviouslyTouchedSpace(boardSpaces);
-//
-//            if (isValidMovement(previousSpace, boardSpace, boardSpaces)){
-//
-//                previousSpace.setIsSelected(0);
-//                Players pieceOwner = previousSpace.getCheckersPieceOwner();
-//                previousSpace.removeCheckersPiece();
-//                boardSpace.setCheckersPiece(new CheckersPiece(pieceOwner));
-//                removeAllPossibleMovementSpaces(boardSpaces);
-//            }
-//        }
+
 //
 ////        capturing an enemy piece
 //        if(!boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
@@ -160,6 +147,53 @@ public abstract class EventHandler {
         prevTouchedSpace.setIsSelected(0);
         currentSpace.setCheckersPiece(new CheckersPiece(player));
     }
+
+
+    public static Array<int[]> getPossibleMoveIndexes(int[] spaceIndexes, Players player, Array<Array<BoardSpace>> boardSpaces){
+        Array<int[]> possibleMoveIndexes = new Array<>();
+        int[][] tempMoveIndexes = new int[2][2];
+
+
+//            possible left
+        tempMoveIndexes[0][1] = (spaceIndexes[1] -1) >= 0 ? spaceIndexes[1] -1 : -1;
+//            possible right
+        tempMoveIndexes[1][1] = (spaceIndexes[1] +1) <= 7 ? spaceIndexes[1] +1 : -1;
+
+        if(player == Players.RED){
+
+//            moving upwards
+            tempMoveIndexes[0][0] = (spaceIndexes[0] + 1) <= 7 ? spaceIndexes[0] + 1 : -1;
+            tempMoveIndexes[1][0] = (spaceIndexes[0] + 1) <= 7 ? spaceIndexes[0] + 1 : -1;
+
+        }
+        else{
+//            moving downwards
+            tempMoveIndexes[0][0] = (spaceIndexes[0] - 1) >= 0 ? spaceIndexes[0] - 1 : -1;
+            tempMoveIndexes[1][0] = (spaceIndexes[0] - 1) >= 0 ? spaceIndexes[0] - 1 : -1;
+        }
+
+        for(byte index = 0; index < 2; index++){
+            if(tempMoveIndexes[index][0] != -1 && tempMoveIndexes[index][1] != -1){
+                if(!BoardUtils.getBoardSpaceByIndexes(tempMoveIndexes[index], boardSpaces).hasCheckersPiece())
+                    possibleMoveIndexes.add(tempMoveIndexes[index]);
+            }
+        }
+
+
+        return possibleMoveIndexes;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
