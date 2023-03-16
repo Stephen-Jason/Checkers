@@ -288,6 +288,12 @@ public class EventHandlerTest {
     }
 
 
+    @Test
+    public void addPossibleMovementsToSpaces(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
 
+
+    }
 
 }
