@@ -22,7 +22,8 @@ public abstract class EventHandler {
         if(isMovingPiece(currentTouchedSpaceHasPiece, prevTouchedSpace)){
             Players player = prevTouchedSpace.getCheckersPieceOwner();
             if(isValidMove(currentSpace, prevTouchedSpace, player)){
-                movePiece(currentSpace, prevTouchedSpace, player);// TODO
+
+                movePiece(currentSpace, prevTouchedSpace, player);
             }
 
         }
@@ -74,7 +75,7 @@ public abstract class EventHandler {
     }
 
 
-    public static boolean isValidMove(BoardSpace prevTouchedSpace, BoardSpace currentSpace, Players player){
+    public static boolean isValidMove(BoardSpace currentSpace, BoardSpace prevTouchedSpace, Players player){
         if(currentSpace.hasCheckersPiece()){
             return false;
         }
