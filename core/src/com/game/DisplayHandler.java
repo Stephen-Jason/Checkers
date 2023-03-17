@@ -46,6 +46,10 @@ public class DisplayHandler {
                     int isSelected = boardSpace.isSelected();
                     this.batch.draw(this.pieceTextures.get(playerIndex).get(isSelected), boardSpace.getX() + 10, boardSpace.getY() + 20, 80, 80);
                 }
+
+                if(boardSpace.isPossibleMovementSpace()){
+                    this.batch.draw(this.possibleMovementTexture, boardSpace.getX() +30, boardSpace.getY()+40, 40, 40);
+                }
             }
 
         }

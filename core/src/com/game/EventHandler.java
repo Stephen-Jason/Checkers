@@ -13,17 +13,20 @@ public abstract class EventHandler {
 
         if(isSelectingPiece(currentTouchedSpaceHasPiece, prevTouchedSpaceHasPiece)){
             selectPiece(currentSpace);
+            Array<int[]> possibleMoveIndexes = getPossibleMoveIndexes(currentSpace.getSpaceIndexes(), currentSpace.getCheckersPieceOwner(), boardSpaces);
+            addPossibleMoves(possibleMoveIndexes, boardSpaces);
         }
 
         if(isDeselectingPiece(currentTouchedSpaceHasPiece, currentSpace == prevTouchedSpace)){
             deselectPiece(currentSpace);
+            removePossibleMoves(boardSpaces);
         }
 
         if(isMovingPiece(currentTouchedSpaceHasPiece, prevTouchedSpace)){
             Players player = prevTouchedSpace.getCheckersPieceOwner();
             if(isValidMove(currentSpace, prevTouchedSpace, player)){
-
                 movePiece(currentSpace, prevTouchedSpace, player);
+                removePossibleMoves(boardSpaces);
             }
 
         }
@@ -179,13 +182,26 @@ public abstract class EventHandler {
             }
         }
 
-
         return possibleMoveIndexes;
     }
 
 
 
+    public static void addPossibleMoves(Array<int[]> possibleMoveIndexes, Array<Array<BoardSpace>> boardSpaces){
+        for(byte index = 0; index < possibleMoveIndexes.size; index++){
+            BoardUtils.getBoardSpaceByIndexes(possibleMoveIndexes.get(index), boardSpaces).setIsPossibleMovementSpace(true);
+        }
+    }
 
+
+    public static void removePossibleMoves(Array<Array<BoardSpace>> boardSpaces){
+        for(byte rowIndex = 0; rowIndex < 8; rowIndex++){
+
+            for(byte columnIndex = 0; columnIndex < 8; columnIndex++){
+                boardSpaces.get(rowIndex).get(columnIndex).setIsPossibleMovementSpace(false);
+            }
+        }
+    }
 
 
 
