@@ -120,4 +120,18 @@ class PossibleMovesTest {
         assertTrue(isRightPossibleMove);
     }
 
+
+    @Test
+    public void getPossibleMovementIndexesLeftAndRight(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace selectedSpace = boardSpaces.get(2).get(2);
+        Array<int[]> actual = PossibleMoves.getPossibleMovementIndexes(selectedSpace, boardSpaces);
+        Array<int[]> expected = new Array<>();
+        expected.add(new int[]{3, 1}, new int[]{3, 3});
+
+        assertArrayEquals(expected.get(0), actual.get(0));
+        assertArrayEquals(expected.get(1), actual.get(1));
+    }
+
 }

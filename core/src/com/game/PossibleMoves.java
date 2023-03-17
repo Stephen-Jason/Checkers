@@ -54,6 +54,28 @@ public abstract class PossibleMoves {
     }
 
 
+    public static Array<int[]> getPossibleMovementIndexes(BoardSpace boardSpace, Array<Array<BoardSpace>> boardSpaces){
+        Array<int[]> possibleMovementIndexes = new Array<>();
+        int[][] calculatedMoveIndexes = calculateMoveIndex(boardSpace.getSpaceIndexes(), boardSpace.getCheckersPieceOwner());
+
+        for (int index = 0; index < 2; index++){
+            if(!ArrayFunc.contains(-1, calculatedMoveIndexes[index])
+                    && !BoardUtils.getBoardSpaceByIndexes(calculatedMoveIndexes[index], boardSpaces).hasCheckersPiece()){
+                possibleMovementIndexes.add(calculatedMoveIndexes[index]);
+            }
+        }
+
+        return possibleMovementIndexes;
+    }
+
+
+    private static int[][] calculateMoveIndex(int[] boardSpaceIndexes, Players player){
+        return player == Players.RED
+                ? new int[][] {{boardSpaceIndexes[0]+1, boardSpaceIndexes[1]-1}, {boardSpaceIndexes[0]+1, boardSpaceIndexes[1]+1}}
+                : new int[][] {{boardSpaceIndexes[0]-1, boardSpaceIndexes[1]-1}, {boardSpaceIndexes[0]-1, boardSpaceIndexes[1]+1}};
+    }
+
+
     public static void addPossibleMoves(Array<int[]> possibleMoveIndexes, Array<Array<BoardSpace>> boardSpaces){
         for(byte index = 0; index < possibleMoveIndexes.size; index++){
             BoardUtils.getBoardSpaceByIndexes(possibleMoveIndexes.get(index), boardSpaces).setIsPossibleMovementSpace(true);
