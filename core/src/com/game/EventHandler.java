@@ -15,37 +15,28 @@ public abstract class EventHandler {
             selectPiece(currentSpace);
             Array<int[]> possibleMoveIndexes = getPossibleMoveIndexes(currentSpace.getSpaceIndexes(), currentSpace.getCheckersPieceOwner(), boardSpaces);
             addPossibleMoves(possibleMoveIndexes, boardSpaces);
+            return;
         }
 
         if(isDeselectingPiece(currentTouchedSpaceHasPiece, currentSpace == prevTouchedSpace)){
             deselectPiece(currentSpace);
             removePossibleMoves(boardSpaces);
+            return;
         }
 
         if(isMovingPiece(currentTouchedSpaceHasPiece, prevTouchedSpace)){
             Players player = prevTouchedSpace.getCheckersPieceOwner();
+
             if(isValidMove(currentSpace, prevTouchedSpace, player)){
                 movePiece(currentSpace, prevTouchedSpace, player);
                 removePossibleMoves(boardSpaces);
             }
+            else if(isValidCapture(prevTouchedSpace, currentSpace, player, boardSpaces)){
+                capturePiece(currentSpace, prevTouchedSpace, player, boardSpaces);
+                removePossibleMoves(boardSpaces);
+            }
 
         }
-
-
-//
-////        capturing an enemy piece
-//        if(!boardSpace.hasCheckersPiece() && getPreviouslyTouchedSpace(boardSpaces) != null){
-//            BoardSpace previousSpace = getPreviouslyTouchedSpace(boardSpaces);
-//            int[] captureInfo = isValidCapture(previousSpace, boardSpace, boardSpaces);
-//            if(captureInfo[0] != -1){
-//                Players pieceOwner = previousSpace.getCheckersPieceOwner();
-//                previousSpace.setIsSelected(0);
-//                previousSpace.removeCheckersPiece();
-//                boardSpace.setCheckersPiece(new CheckersPiece(pieceOwner));
-//                removeCapturedPiece(pieceOwner, boardSpaces, previousSpace, captureInfo[1]);
-//                removeAllPossibleMovementSpaces(boardSpaces);
-//            }
-//        }
 
     }
 
@@ -84,34 +75,13 @@ public abstract class EventHandler {
         }
         int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
         int[] spaceToMoveToIndexes = spaceToMoveTo.getSpaceIndexes();
-        int[] capturedSpaceIndex = getCapturedSpaceIndexes(spaceToMoveToIndexes, selectedSpaceIndexes, player);
+        int[] capturedSpaceIndex = getCapturedSpaceIndex(spaceToMoveToIndexes, selectedSpaceIndexes, player);
 
         BoardSpace capturedSpace = BoardUtils.getBoardSpaceByIndexes(capturedSpaceIndex, boardSpaces);
 
         return isValidVerticalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.CAPTURE)
                 && isValidHorizontalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.CAPTURE)
                 && isEnemyPiece(capturedSpace, player);
-    }
-
-
-    private static int[] getCapturedSpaceIndexes(int[] spaceToMoveToIndexes, int[] selectedSpaceIndexes, Players player){
-        int[] capturedSpaceIndex;
-
-        //        capturing to the right
-        if(spaceToMoveToIndexes[1] > selectedSpaceIndexes[1]){
-            capturedSpaceIndex = player == Players.RED
-                    ? new int[] {selectedSpaceIndexes[0]+1, selectedSpaceIndexes[1]+1}
-                    : new int[] {selectedSpaceIndexes[0]-1, selectedSpaceIndexes[1]+1};
-
-        }
-//        capturing to the left
-        else {
-            capturedSpaceIndex = player == Players.RED
-                    ? new int[] {selectedSpaceIndexes[0]+1, selectedSpaceIndexes[1]-1}
-                    : new int[] {selectedSpaceIndexes[0]-1, selectedSpaceIndexes[1]-1};
-        }
-
-        return capturedSpaceIndex;
     }
 
 
@@ -149,6 +119,36 @@ public abstract class EventHandler {
         prevTouchedSpace.removeCheckersPiece();
         prevTouchedSpace.setIsSelected(0);
         currentSpace.setCheckersPiece(new CheckersPiece(player));
+    }
+
+
+    private static void capturePiece(BoardSpace currentSpace, BoardSpace prevTouchedSpace, Players player, Array<Array<BoardSpace>> boardSpaces){
+        int[] capturedSpaceIndex = getCapturedSpaceIndex(currentSpace.getSpaceIndexes(), prevTouchedSpace.getSpaceIndexes(), player);
+        BoardUtils.getBoardSpaceByIndexes(capturedSpaceIndex, boardSpaces).removeCheckersPiece();
+        currentSpace.setCheckersPiece(new CheckersPiece(player));
+        prevTouchedSpace.setIsSelected(0);
+        prevTouchedSpace.removeCheckersPiece();
+    }
+
+
+    private static int[] getCapturedSpaceIndex(int[] spaceToMoveToIndexes, int[] selectedSpaceIndexes, Players player){
+        int[] capturedSpaceIndex;
+
+        //        capturing to the right
+        if(spaceToMoveToIndexes[1] > selectedSpaceIndexes[1]){
+            capturedSpaceIndex = player == Players.RED
+                    ? new int[] {selectedSpaceIndexes[0]+1, selectedSpaceIndexes[1]+1}
+                    : new int[] {selectedSpaceIndexes[0]-1, selectedSpaceIndexes[1]+1};
+
+        }
+//        capturing to the left
+        else {
+            capturedSpaceIndex = player == Players.RED
+                    ? new int[] {selectedSpaceIndexes[0]+1, selectedSpaceIndexes[1]-1}
+                    : new int[] {selectedSpaceIndexes[0]-1, selectedSpaceIndexes[1]-1};
+        }
+
+        return capturedSpaceIndex;
     }
 
 
