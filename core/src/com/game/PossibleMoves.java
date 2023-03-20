@@ -56,11 +56,24 @@ public abstract class PossibleMoves {
 
     public static Array<int[]> getPossibleMovementIndexes(BoardSpace boardSpace, Array<Array<BoardSpace>> boardSpaces){
         Array<int[]> possibleMovementIndexes = new Array<>();
-        int[][] calculatedMoveIndexes = calculateMoveIndex(boardSpace.getSpaceIndexes(), boardSpace.getCheckersPieceOwner());
+        Players player = boardSpace.getCheckersPieceOwner();
+        int moveNum = player == Players.RED ? 1 : -1;
+        int captureNum = player == Players.RED ? 2 : -2;
+        int[][] calculatedMoveIndexes = calculateMoveIndex(boardSpace.getSpaceIndexes(), moveNum, 1);
+        int[][] calculatedCaptureIndexes = calculateMoveIndex(boardSpace.getSpaceIndexes(), captureNum, 2);
 
-        for (int index = 0; index < 2; index++){
-            if(!ArrayFunc.contains(-1, calculatedMoveIndexes[index])
-                    && !BoardUtils.getBoardSpaceByIndexes(calculatedMoveIndexes[index], boardSpaces).hasCheckersPiece()){
+        for (int index = 0; index < calculatedCaptureIndexes.length; index++){
+            if(isValidCaptureIndex(calculatedMoveIndexes[index], calculatedCaptureIndexes[index], boardSpaces, player)){
+                possibleMovementIndexes.add(calculatedCaptureIndexes[index]);
+            }
+        }
+
+        if(possibleMovementIndexes.size > 0){
+            return possibleMovementIndexes;
+        }
+
+        for (int index = 0; index < calculatedMoveIndexes.length; index++){
+            if(isValidMoveIndex(calculatedMoveIndexes[index], boardSpaces)){
                 possibleMovementIndexes.add(calculatedMoveIndexes[index]);
             }
         }
@@ -69,10 +82,27 @@ public abstract class PossibleMoves {
     }
 
 
-    private static int[][] calculateMoveIndex(int[] boardSpaceIndexes, Players player){
-        return player == Players.RED
-                ? new int[][] {{boardSpaceIndexes[0]+1, boardSpaceIndexes[1]-1}, {boardSpaceIndexes[0]+1, boardSpaceIndexes[1]+1}}
-                : new int[][] {{boardSpaceIndexes[0]-1, boardSpaceIndexes[1]-1}, {boardSpaceIndexes[0]-1, boardSpaceIndexes[1]+1}};
+    private static int[][] calculateMoveIndex(int[] boardSpaceIndexes, int verticalNum, int horizontalNum){
+        return new int[][] {{boardSpaceIndexes[0]+verticalNum, boardSpaceIndexes[1]-horizontalNum},
+                {boardSpaceIndexes[0]+verticalNum, boardSpaceIndexes[1]+horizontalNum}};
+    }
+
+
+    private static boolean isValidMoveIndex(int[] calculatedMove, Array<Array<BoardSpace>> boardSpaces){
+        return !ArrayFunc.contains(-1, calculatedMove)
+                && !ArrayFunc.contains(8, calculatedMove)
+                && !BoardUtils.getBoardSpaceByIndexes(calculatedMove, boardSpaces).hasCheckersPiece();
+    }
+
+
+    private static boolean isValidCaptureIndex(int[] calculatedMove, int[] calculatedCapture, Array<Array<BoardSpace>> boardSpaces, Players player){
+        return !ArrayFunc.contains(-1, calculatedMove)
+                && !ArrayFunc.contains(8, calculatedMove)
+                && !ArrayFunc.contains(-1, calculatedCapture)
+                && !ArrayFunc.contains(8, calculatedCapture)
+                && BoardUtils.getBoardSpaceByIndexes(calculatedMove, boardSpaces).hasCheckersPiece()
+                && !BoardUtils.getBoardSpaceByIndexes(calculatedCapture, boardSpaces).hasCheckersPiece()
+                && PieceUtils.isEnemyPiece(BoardUtils.getBoardSpaceByIndexes(calculatedMove, boardSpaces), player);
     }
 
 
