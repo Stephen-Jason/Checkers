@@ -123,5 +123,11 @@ public abstract class PossibleMoves {
     }
 
 
+    public static boolean hasPossibleMoves(BoardSpace boardSpace, Array<Array<BoardSpace>> boardSpaces){
+        return getPossibleMovementIndexes(boardSpace, boardSpaces).size > 0;
+    }
+
+
+
 
 }

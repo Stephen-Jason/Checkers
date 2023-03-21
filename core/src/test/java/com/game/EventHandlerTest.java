@@ -10,11 +10,11 @@ public class EventHandlerTest {
     public void isSelectingAPieceTrue(){
         Board board = new Board();
         Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
-        BoardSpace touchedSpace = boardSpaces.get(0).get(0);
-        touchedSpace.setCheckersPiece(new CheckersPiece(Players.BLACK));
-        boolean touchedSpaceHasPiece = touchedSpace.hasCheckersPiece();
-        boolean prevSelectedPieces = BoardUtils.prevSelectedPieces(boardSpaces);
-        boolean actual = EventHandler.isSelectingPiece(touchedSpaceHasPiece, prevSelectedPieces);
+        BoardSpace currentPiece = boardSpaces.get(0).get(0);
+        currentPiece.setCheckersPiece(new CheckersPiece(Players.BLACK));
+        boolean anyPrevSelectedPieces = BoardUtils.prevSelectedPieces(boardSpaces);
+//        boolean touchedSpaceHasPiece = touchedSpace.hasCheckersPiece();
+        boolean actual = EventHandler.isSelectingPiece(currentPiece, anyPrevSelectedPieces, boardSpaces);
 
         assertTrue(actual);
     }
