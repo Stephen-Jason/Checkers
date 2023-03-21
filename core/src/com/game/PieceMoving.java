@@ -12,7 +12,8 @@ public abstract class PieceMoving {
         int[] spaceToMoveToIndexes = currentSpace.getSpaceIndexes();
 
         return PieceUtils.isValidVerticalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.MOVE)
-                && PieceUtils.isValidHorizontalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.MOVE);
+                && PieceUtils.isValidHorizontalMovement(spaceToMoveToIndexes, selectedSpaceIndexes, player, MoveValues.MOVE)
+                && currentSpace.isPossibleMovementSpace();
     }
 
 

@@ -109,9 +109,7 @@ class PossibleMovesTest {
         Board board = new Board();
         Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
         BoardSpace selectedSpace = boardSpaces.get(2).get(2);
-        Players player = selectedSpace.getCheckersPieceOwner();
-        int[] selectedSpaceIndexes = selectedSpace.getSpaceIndexes();
-        Array<int[]> possibleMoveIndexes = PossibleMoves.getPossibleMoveIndexes(selectedSpaceIndexes, player, boardSpaces);
+        Array<int[]> possibleMoveIndexes = PossibleMoves.getPossibleMovementIndexes(selectedSpace, boardSpaces);
         PossibleMoves.addPossibleMoves(possibleMoveIndexes, boardSpaces);
         boolean isLeftPossibleMove = boardSpaces.get(3).get(1).isPossibleMovementSpace();
         boolean isRightPossibleMove = boardSpaces.get(3).get(3).isPossibleMovementSpace();

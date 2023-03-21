@@ -9,7 +9,7 @@ class PieceMovingTest {
 
 
     @Test
-    public void isValidMoveForRedPlayerTrue(){
+    public void isValidMoveForRedPlayerFalse1(){
         Board board = new Board();
         Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
         BoardSpace selectedSpace = boardSpaces.get(2).get(0);
@@ -17,12 +17,12 @@ class PieceMovingTest {
         Players player = selectedSpace.getCheckersPieceOwner();
         boolean isValidMove = PieceMoving.isValidMove(spaceToMoveTo, selectedSpace, player);
 
-        assertTrue(isValidMove);
+        assertFalse(isValidMove);
     }
 
 
     @Test
-    public void isValidMoveForRedPlayerFalse(){
+    public void isValidMoveForRedPlayerFalse2(){
         Board board = new Board();
         Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
         BoardSpace selectedSpace = boardSpaces.get(0).get(0);
@@ -35,7 +35,7 @@ class PieceMovingTest {
 
 
     @Test
-    public void isValidMoveForBlackPlayerTrue(){
+    public void isValidMoveForBlackPlayerFalse1(){
         Board board = new Board();
         Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
         BoardSpace selectedSpace = boardSpaces.get(5).get(1);
@@ -43,12 +43,12 @@ class PieceMovingTest {
         Players player = selectedSpace.getCheckersPieceOwner();
         boolean isValidMove = PieceMoving.isValidMove(spaceToMoveTo, selectedSpace, player);
 
-        assertTrue(isValidMove);
+        assertFalse(isValidMove);
     }
 
 
     @Test
-    public void isValidMoveForBlackPlayerFalse(){
+    public void isValidMoveForBlackPlayerFalse2(){
         Board board = new Board();
         Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
         BoardSpace selectedSpace = boardSpaces.get(5).get(1);

@@ -13,7 +13,7 @@ public abstract class EventHandler {
 
         if(isSelectingPiece(currentTouchedSpaceHasPiece, prevTouchedSpaceHasPiece)){
             selectPiece(currentSpace);
-            Array<int[]> possibleMoveIndexes = PossibleMoves.getPossibleMoveIndexes(currentSpace.getSpaceIndexes(), currentSpace.getCheckersPieceOwner(), boardSpaces);
+            Array<int[]> possibleMoveIndexes = PossibleMoves.getPossibleMovementIndexes(currentSpace, boardSpaces);
             PossibleMoves.addPossibleMoves(possibleMoveIndexes, boardSpaces);
             return;
         }
