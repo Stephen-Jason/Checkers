@@ -1,42 +1,68 @@
 package com.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
-public class EventHandler {
+public abstract class EventHandler {
 
-    private Vector3 mousePoint;
-    private Rectangle mouseRectangle;
-    private final OrthographicCamera camera;
-    private long lastTouchedTime;
 
-    EventHandler(OrthographicCamera camera){
-        this.mousePoint = new Vector3();
-        this.mouseRectangle = new Rectangle();
-        this.camera = camera;
-        this.lastTouchedTime = TimeUtils.nanoTime();
-    }
+    public static void handleEvent(BoardSpace currentSpace, Array<Array<BoardSpace>> boardSpaces){
+        BoardSpace prevTouchedSpace = BoardUtils.getPreviouslyTouchedSpace(boardSpaces);
+        boolean currentTouchedSpaceHasPiece = currentSpace.hasCheckersPiece();
+        boolean prevTouchedSpaceHasPiece = BoardUtils.prevSelectedPieces(boardSpaces);
 
-    public TouchEvent getTouchEvent(Array<BoardSpace> boardSpaces){
 
-        if (Gdx.input.isTouched()){
-            this.mousePoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(mousePoint);
-            this.mouseRectangle.set(this.mousePoint.x, this.mousePoint.y, 5, 5);
+        if(isSelectingPiece(currentTouchedSpaceHasPiece, prevTouchedSpaceHasPiece)){
+            selectPiece(currentSpace);
+            Array<int[]> possibleMoveIndexes = PossibleMoves.getPossibleMovementIndexes(currentSpace, boardSpaces);
+            PossibleMoves.addPossibleMoves(possibleMoveIndexes, boardSpaces);
+            return;
+        }
 
-            for(BoardSpace space : boardSpaces){
-                if (mouseRectangle.overlaps(space.getSpaceRectangle()) && TimeUtils.nanoTime() - this.lastTouchedTime > 300000000){
-                    this.lastTouchedTime = TimeUtils.nanoTime();
-                    return new TouchEvent(space);
-                }
+        if(isDeselectingPiece(currentTouchedSpaceHasPiece, currentSpace == prevTouchedSpace)){
+            deselectPiece(currentSpace);
+            PossibleMoves.removePossibleMoves(boardSpaces);
+            return;
+        }
+
+        if(isMovingPiece(currentTouchedSpaceHasPiece, prevTouchedSpace)){
+            Players player = prevTouchedSpace.getCheckersPieceOwner();
+
+            if(PieceMoving.isValidMove(currentSpace, prevTouchedSpace, player)){
+                PieceMoving.movePiece(currentSpace, prevTouchedSpace, player);
+                PossibleMoves.removePossibleMoves(boardSpaces);
+            }
+            else if(PieceCapturing.isValidCapture(prevTouchedSpace, currentSpace, player, boardSpaces)){
+                PieceCapturing.capturePiece(currentSpace, prevTouchedSpace, player, boardSpaces);
+                PossibleMoves.removePossibleMoves(boardSpaces);
             }
 
         }
-        return null;
+
+    }
+
+
+    public static boolean isSelectingPiece(boolean touchedSpaceHasPiece, boolean prevSelectedPieces){
+        return touchedSpaceHasPiece && !prevSelectedPieces;
+    }
+
+
+    public static boolean isDeselectingPiece(boolean touchedSpaceHasPiece, boolean prevTouchedSpaceIsCurrentSpace){
+        return touchedSpaceHasPiece && prevTouchedSpaceIsCurrentSpace;
+    }
+
+
+    public static boolean isMovingPiece(boolean touchedSpaceHasPiece, BoardSpace prevTouchedSpace){
+        return !touchedSpaceHasPiece && prevTouchedSpace != null;
+    }
+
+
+    private static void selectPiece(BoardSpace boardSpace){
+        boardSpace.setIsSelected(1);
+    }
+
+
+    private static void deselectPiece(BoardSpace boardSpace){
+        boardSpace.setIsSelected(0);
     }
 
 

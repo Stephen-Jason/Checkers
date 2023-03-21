@@ -10,10 +10,12 @@ public class BoardSpace {
     private int x;
     private int y;
     private Rectangle spaceRectangle;
+    private int[] spaceIndexes;
 
-    BoardSpace(int x, int y){
+    BoardSpace(int x, int y, int[] spaceIndexes){
         this.x = x;
         this.y = y;
+        this.spaceIndexes = spaceIndexes;
         this.isSelected = 0;
         this.spaceRectangle = new Rectangle();
         this.spaceRectangle.set(x, y, 100, 100);
@@ -62,5 +64,10 @@ public class BoardSpace {
 
     public boolean isPossibleMovementSpace(){
         return this.isPossibleMovementSpace;
+    }
+
+
+    public int[] getSpaceIndexes(){
+        return this.spaceIndexes;
     }
 }

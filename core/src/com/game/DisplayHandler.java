@@ -23,7 +23,7 @@ public class DisplayHandler {
         this.possibleMovementTexture = new Texture(Gdx.files.internal("possible_move.png"));
     }
 
-    public void draw(Array<BoardSpace> boardSpaces){
+    public void draw(Array<Array<BoardSpace>> boardSpaces){
         this.drawCheckersBoard();
         this.drawCheckersPieces(boardSpaces);
     }
@@ -33,20 +33,40 @@ public class DisplayHandler {
     }
 
 
-    private void drawCheckersPieces(Array<BoardSpace> boardSpaces){
-        for (BoardSpace space : boardSpaces){
+    private void drawCheckersPieces(Array<Array<BoardSpace>> boardSpaces){
 
-            if(space.hasCheckersPiece()){
-                int ownerIndex = space.getCheckersPieceOwner().playerNumber - 1;
-                int isSelected = space.isSelected();
-                this.batch.draw(this.pieceTextures.get(ownerIndex).get(isSelected), space.getX() + 10, space.getY() + 20, 80, 80);
-            }
+        for(byte rowIndex = 0; rowIndex < 8; rowIndex++){
 
-            if(space.isPossibleMovementSpace()){
-                this.batch.draw(this.possibleMovementTexture, space.getX() + 30, space.getY() + 40, 40, 40);
+            Array<BoardSpace> boardRows = boardSpaces.get(rowIndex);
+
+            for(byte columnIndex = 0; columnIndex < 8; columnIndex++){
+                BoardSpace boardSpace = boardRows.get(columnIndex);
+                if(boardSpace.hasCheckersPiece()){
+                    int playerIndex = boardSpace.getCheckersPieceOwner().playerNumber -1;
+                    int isSelected = boardSpace.isSelected();
+                    this.batch.draw(this.pieceTextures.get(playerIndex).get(isSelected), boardSpace.getX() + 10, boardSpace.getY() + 20, 80, 80);
+                }
+
+                if(boardSpace.isPossibleMovementSpace()){
+                    this.batch.draw(this.possibleMovementTexture, boardSpace.getX() +30, boardSpace.getY()+40, 40, 40);
+                }
             }
 
         }
+
+//        for (BoardSpace space : boardSpaces){
+//
+//            if(space.hasCheckersPiece()){
+//                int ownerIndex = space.getCheckersPieceOwner().playerNumber - 1;
+//                int isSelected = space.isSelected();
+//                this.batch.draw(this.pieceTextures.get(ownerIndex).get(isSelected), space.getX() + 10, space.getY() + 20, 80, 80);
+//            }
+//
+//            if(space.isPossibleMovementSpace()){
+//                this.batch.draw(this.possibleMovementTexture, space.getX() + 30, space.getY() + 40, 40, 40);
+//            }
+//
+//        }
         
     }
 }
