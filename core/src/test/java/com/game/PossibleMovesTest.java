@@ -445,4 +445,26 @@ class PossibleMovesTest {
         assertArrayEquals(onlyMoves.get(0), actual.get(0));
     }
 
+
+    @Test
+    public void hasPossibleMovesTrue(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace selectedSpace = boardSpaces.get(2).get(2);
+        boolean hasPossibleMoves = PossibleMoves.hasPossibleMoves(selectedSpace, boardSpaces);
+
+        assertTrue(hasPossibleMoves);
+    }
+
+
+    @Test
+    public void hasPossibleMovesFalse(){
+        Board board = new Board();
+        Array<Array<BoardSpace>> boardSpaces = board.getBoardSpaces();
+        BoardSpace selectedSpace = boardSpaces.get(1).get(1);
+        boolean hasPossibleMoves = PossibleMoves.hasPossibleMoves(selectedSpace, boardSpaces);
+
+        assertFalse(hasPossibleMoves);
+    }
+
 }

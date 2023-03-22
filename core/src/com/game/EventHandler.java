@@ -10,8 +10,7 @@ public abstract class EventHandler {
         boolean currentTouchedSpaceHasPiece = currentSpace.hasCheckersPiece();
         boolean prevTouchedSpaceHasPiece = BoardUtils.prevSelectedPieces(boardSpaces);
 
-
-        if(isSelectingPiece(currentTouchedSpaceHasPiece, prevTouchedSpaceHasPiece)){
+        if(isSelectingPiece(currentSpace, prevTouchedSpaceHasPiece, boardSpaces)){
             selectPiece(currentSpace);
             Array<int[]> possibleMoveIndexes = PossibleMoves.getPossibleMovementIndexes(currentSpace, boardSpaces);
             PossibleMoves.addPossibleMoves(possibleMoveIndexes, boardSpaces);
@@ -41,8 +40,14 @@ public abstract class EventHandler {
     }
 
 
-    public static boolean isSelectingPiece(boolean touchedSpaceHasPiece, boolean prevSelectedPieces){
-        return touchedSpaceHasPiece && !prevSelectedPieces;
+    public static boolean isSelectingPiece(BoardSpace currentSpace, boolean anyPrevSelectedPieces, Array<Array<BoardSpace>> boardSpaces){
+//        return touchedSpaceHasPiece && !prevSelectedPieces;
+        boolean currentSpaceHasPiece = currentSpace.hasCheckersPiece();
+        if(!currentSpaceHasPiece){
+            return false;
+        }
+        boolean currentSpaceHasPossibleMoves = PossibleMoves.hasPossibleMoves(currentSpace, boardSpaces);
+        return !anyPrevSelectedPieces && currentSpaceHasPossibleMoves;
     }
 
 
