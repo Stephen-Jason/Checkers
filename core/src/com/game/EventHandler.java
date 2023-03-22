@@ -8,9 +8,9 @@ public abstract class EventHandler {
     public static void handleEvent(BoardSpace currentSpace, Array<Array<BoardSpace>> boardSpaces){
         BoardSpace prevTouchedSpace = BoardUtils.getPreviouslyTouchedSpace(boardSpaces);
         boolean currentTouchedSpaceHasPiece = currentSpace.hasCheckersPiece();
-//        boolean prevTouchedSpaceHasPiece = BoardUtils.prevSelectedPieces(boardSpaces);
+        boolean prevTouchedSpaceHasPiece = BoardUtils.prevSelectedPieces(boardSpaces);
 
-        if(isSelectingPiece(currentTouchedSpaceHasPiece, prevTouchedSpaceHasPiece)){
+        if(isSelectingPiece(currentSpace, prevTouchedSpaceHasPiece, boardSpaces)){
             selectPiece(currentSpace);
             Array<int[]> possibleMoveIndexes = PossibleMoves.getPossibleMovementIndexes(currentSpace, boardSpaces);
             PossibleMoves.addPossibleMoves(possibleMoveIndexes, boardSpaces);
@@ -42,7 +42,12 @@ public abstract class EventHandler {
 
     public static boolean isSelectingPiece(BoardSpace currentSpace, boolean anyPrevSelectedPieces, Array<Array<BoardSpace>> boardSpaces){
 //        return touchedSpaceHasPiece && !prevSelectedPieces;
-        boolean currentSpace// TODO
+        boolean currentSpaceHasPiece = currentSpace.hasCheckersPiece();
+        if(!currentSpaceHasPiece){
+            return false;
+        }
+        boolean currentSpaceHasPossibleMoves = PossibleMoves.hasPossibleMoves(currentSpace, boardSpaces);
+        return !anyPrevSelectedPieces && currentSpaceHasPossibleMoves;
     }
 
 
