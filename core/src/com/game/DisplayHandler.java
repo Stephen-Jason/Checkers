@@ -29,7 +29,7 @@ public class DisplayHandler {
     }
 
     private void drawCheckersBoard(){
-        this.batch.draw(this.boardTexture, 0, 0);
+        this.batch.draw(this.boardTexture, 180, 0, 450, 800);
     }
 
 
@@ -44,7 +44,7 @@ public class DisplayHandler {
                 if(boardSpace.hasCheckersPiece()){
                     int playerIndex = boardSpace.getCheckersPieceOwner().playerNumber -1;
                     int isSelected = boardSpace.isSelected();
-                    this.batch.draw(this.pieceTextures.get(playerIndex).get(isSelected), boardSpace.getX() + 10, boardSpace.getY() + 20, 80, 80);
+                    this.batch.draw(this.pieceTextures.get(playerIndex).get(isSelected), boardSpace.getX(), boardSpace.getY() + 20, 40, 80);
                 }
 
                 if(boardSpace.isPossibleMovementSpace()){
@@ -53,20 +53,6 @@ public class DisplayHandler {
             }
 
         }
-
-//        for (BoardSpace space : boardSpaces){
-//
-//            if(space.hasCheckersPiece()){
-//                int ownerIndex = space.getCheckersPieceOwner().playerNumber - 1;
-//                int isSelected = space.isSelected();
-//                this.batch.draw(this.pieceTextures.get(ownerIndex).get(isSelected), space.getX() + 10, space.getY() + 20, 80, 80);
-//            }
-//
-//            if(space.isPossibleMovementSpace()){
-//                this.batch.draw(this.possibleMovementTexture, space.getX() + 30, space.getY() + 40, 40, 40);
-//            }
-//
-//        }
         
     }
 }

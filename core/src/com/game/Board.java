@@ -13,7 +13,7 @@ public class Board {
 
     private void createBoardSpaces(){
         this.boardSpaces = new Array<>();
-        int x = 20;
+        int x = 200;
         int y = 20;
 
         for(byte rowIndex = 0; rowIndex < 8; rowIndex++){
@@ -22,13 +22,14 @@ public class Board {
             for (byte columnIndex = 0; columnIndex < 8; columnIndex++){
 
                 if (columnIndex == 0){
-                    x = 20;
+                    x = 200;
                 }
                 else{
-                    x += 94;
+                    x += 60;
                 }
 
                 innerBoardSpaceArray.add(new BoardSpace(x, y, new int[]{rowIndex, columnIndex}));
+
             }
             y += 95;
             this.boardSpaces.add(innerBoardSpaceArray);
