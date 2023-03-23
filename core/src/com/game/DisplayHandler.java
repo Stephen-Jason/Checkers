@@ -29,7 +29,7 @@ public class DisplayHandler {
     }
 
     private void drawCheckersBoard(){
-        this.batch.draw(this.boardTexture, 180, 0, 450, 800);
+        this.batch.draw(this.boardTexture, 200, 0);
     }
 
 
@@ -44,7 +44,7 @@ public class DisplayHandler {
                 if(boardSpace.hasCheckersPiece()){
                     int playerIndex = boardSpace.getCheckersPieceOwner().playerNumber -1;
                     int isSelected = boardSpace.isSelected();
-                    this.batch.draw(this.pieceTextures.get(playerIndex).get(isSelected), boardSpace.getX(), boardSpace.getY() + 20, 40, 80);
+                    this.batch.draw(this.pieceTextures.get(playerIndex).get(isSelected), boardSpace.getX()+10, boardSpace.getY() + 20, 80, 80);
                 }
 
                 if(boardSpace.isPossibleMovementSpace()){

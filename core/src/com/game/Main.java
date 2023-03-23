@@ -14,7 +14,7 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		this.batch = new SpriteBatch();
 		this.camera = new OrthographicCamera();
-		this.camera.setToOrtho(false, 800, 800);
+		this.camera.setToOrtho(false, 1200, 1000);
 		checkersGame = new Game(this.batch, this.camera);
 	}
 
