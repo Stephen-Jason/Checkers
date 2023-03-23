@@ -20,7 +20,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
+		ScreenUtils.clear(1, 1, 1, 1);
 		camera.update();
 		this.batch.setProjectionMatrix(this.camera.combined);
 		this.batch.begin();
